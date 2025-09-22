@@ -12,7 +12,7 @@ const isDark = computed(() => 100 - heatmapNumber.lightness < 55)
 
 <template>
   <div
-    class="flex h-[54px] w-full flex-col items-center justify-center rounded"
+    class="flex h-full w-full flex-col items-center justify-center rounded"
     :class="{ 'text-gray-200': isDark, 'text-gray-800': !isDark }"
     :style="{ backgroundColor: backgroundColor }"
   >

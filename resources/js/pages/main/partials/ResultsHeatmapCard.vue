@@ -2,6 +2,7 @@
 import AppCard from '@/components/card/AppCard.vue'
 import AppToggle from '@/components/toggle/AppToggle.vue'
 import { computed } from 'vue'
+import IPhChartScatterBold from '~icons/ph/chart-scatter-bold'
 import { LotteryHeatmapNumber } from '../MainPageProps'
 import ResultsHeatmapNumber from './ResultsHeatmapNumber.vue'
 
@@ -23,13 +24,12 @@ const computedHeatmapNumbers = computed(() => {
 </script>
 
 <template>
-  <AppCard>
-    <template #header>
-      <div class="flex items-center gap-2">
-        <IPhChartScatterBold />
-        Mapa de calor
-      </div>
-    </template>
+  <AppCard
+    :header-icon="IPhChartScatterBold"
+    color="danger"
+    body-class="h-[calc(100vh-80px)]"
+  >
+    <template #header> Mapa de calor </template>
 
     <template #body>
       <div class="mt-2 mb-4">
@@ -41,7 +41,7 @@ const computedHeatmapNumbers = computed(() => {
 
       <div
         v-auto-animate
-        class="grid grid-cols-6 gap-1"
+        class="grid h-[calc(100vh-160px)] grid-cols-6 gap-1"
       >
         <ResultsHeatmapNumber
           v-for="heatmapNumber in computedHeatmapNumbers"

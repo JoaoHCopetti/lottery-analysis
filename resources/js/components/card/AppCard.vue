@@ -3,13 +3,16 @@ import { computed } from 'vue'
 
 const HEADER_CLASS_COLOR_MAP = {
   primary: 'bg-blue-600 text-white',
+  danger: 'bg-red-700 text-white',
 }
 
 const props = withDefaults(
   defineProps<{
     color?: keyof typeof HEADER_CLASS_COLOR_MAP
+    headerIcon?: any
+    bodyClass?: string
   }>(),
-  { color: 'primary' },
+  { color: 'primary', headerIcon: undefined, bodyClass: '' },
 )
 
 const headerClass = computed(() => {
@@ -22,20 +25,25 @@ const headerClass = computed(() => {
 </script>
 
 <template>
-  <div class="shadow-lg">
+  <div class="overflow-hidden rounded shadow-lg">
     <div
       v-if="$slots['header']"
-      class="rounded-t-md px-4 py-3 text-lg font-bold"
+      class="px-4 py-3 text-lg font-bold"
       :class="headerClass"
     >
-      <slot name="header" />
+      <div class="flex items-center">
+        <Component
+          :is="headerIcon"
+          class="mr-2"
+        />
+
+        <slot name="header" />
+      </div>
     </div>
 
     <div
-      class="rounded-b-md bg-white px-4 py-3"
-      :class="{
-        'rounded-t-md': !$slots['header'],
-      }"
+      class="bg-white px-4 py-3"
+      :class="bodyClass"
     >
       <slot name="body" />
     </div>
