@@ -2,6 +2,7 @@
 import AppCard from '@/components/card/AppCard.vue'
 import IPhListBulletsBold from '~icons/ph/list-bullets-bold'
 import { LotteryResult } from '../MainPageProps'
+import ResultsListCardItem from './ResultsListCardItem.vue'
 
 defineProps<{
   results: LotteryResult[]
@@ -16,12 +17,14 @@ defineProps<{
     <template #header> Resultados </template>
 
     <template #body>
-      <div
-        v-for="result in results"
-        :key="`result-${result.id}`"
-      >
-        {{ result }}
-      </div>
+      <ul>
+        <ResultsListCardItem
+          v-for="result in results"
+          :key="`result-list-card-item-${result.id}`"
+          :result="result"
+          class="mb-4"
+        />
+      </ul>
     </template>
   </AppCard>
 </template>
