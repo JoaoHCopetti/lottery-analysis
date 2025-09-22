@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LotteryResult } from '../MainPageProps'
-import ResultsListCardNumber from './ResultsListCardNumber.vue'
+import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
 
 defineProps<{
   result: LotteryResult
@@ -18,7 +18,7 @@ defineProps<{
     </div>
 
     <div class="flex flex-row justify-between">
-      <ResultsListCardNumber
+      <ResultsListCardItemNumber
         v-for="number in result.numbers"
         :key="`results-list-card-number-${number}`"
         :number="number"

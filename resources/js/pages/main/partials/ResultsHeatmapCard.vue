@@ -4,7 +4,7 @@ import AppToggle from '@/components/toggle/AppToggle.vue'
 import { computed } from 'vue'
 import IPhChartScatterBold from '~icons/ph/chart-scatter-bold'
 import { LotteryHeatmapNumber } from '../MainPageProps'
-import ResultsHeatmapNumber from './ResultsHeatmapNumber.vue'
+import ResultsHeatmapCardNumber from './ResultsHeatmapCardNumber.vue'
 
 const props = defineProps<{
   heatmapNumbers: LotteryHeatmapNumber[]
@@ -43,7 +43,7 @@ const computedHeatmapNumbers = computed(() => {
         v-auto-animate
         class="grid h-[calc(100vh-160px)] grid-cols-6 gap-1"
       >
-        <ResultsHeatmapNumber
+        <ResultsHeatmapCardNumber
           v-for="heatmapNumber in computedHeatmapNumbers"
           :key="`heatmap-number-${heatmapNumber.number}`"
           :heatmap-number="heatmapNumber"
