@@ -3,24 +3,35 @@
 namespace App\Services;
 
 use App\Data\LotteryResultData;
+use Exception;
 use Illuminate\Support\Collection;
 
 class HeatmapService
 {
     /**
-     * @param \Illuminate\Support\Collection<int, LotteryResultData> $results
-     * @return Collection<int, array{number: int, occurrences: int, weight: float>}
+     * Summary of getResultsHeatmap
+     * @param Collection<int, LotteryResultData> $results
+     * @return Collection<int, array{number: string, occurrences: int, weight: float, lightness: float}>
      */
     public function getResultsHeatmap(Collection $results)
     {
         $allNumbers = $results->pluck('numbers')->collapse()->values();
-        $numbersWithOccurrences = $allNumbers->unique()->sort()->values()->mapWithKeys(fn ($value) => [$value => 0])->toArray();
 
-        $allNumbers->each(function ($number) use (&$numbersWithOccurrences) {
+        /**
+         * @var array<string, int>
+         */
+        $numbersWithOccurrences = $allNumbers
+            ->unique()
+            ->sort()
+            ->values()
+            ->mapWithKeys(fn (string $value) => [$value => 0])
+            ->toArray();
+
+        $allNumbers->each(function (string $number) use (&$numbersWithOccurrences) {
             $numbersWithOccurrences[$number]++;
         });
 
-        return collect($numbersWithOccurrences)->map(fn ($occurrences, $number) => [
+        return collect($numbersWithOccurrences)->map(fn (int $occurrences, string $number) => [
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbersWithOccurrences, $occurrences),
@@ -28,16 +39,27 @@ class HeatmapService
         ])->sortBy('number')->values();
     }
 
-    private function getWeight($numbersWithOccurrences, $occurrences)
+    /**
+     * Summary of getWeight
+     * @param array<string, int> $numbersWithOccurrences
+     * @param int $occurrences
+     * @return float
+     */
+    private function getWeight(array $numbersWithOccurrences, int $occurrences): float
     {
+        if (empty($numbersWithOccurrences)) {
+            throw new Exception("numbers with occurrences can't be empty");
+        }
+
         $min = min($numbersWithOccurrences);
         $max = max($numbersWithOccurrences);
-        $baseWeight = bcdiv(bcsub($occurrences, $min, 4), bcsub($max, $min, 4), 4);
+
+        $baseWeight = ($occurrences - $min) / ($max - $min);
 
         return round($baseWeight * 100, 4);
     }
 
-    private function getLightness(float $weight)
+    private function getLightness(float $weight): float
     {
         $MAX_THRESHOLD = 80;
         $MIN_THRESHOLD = 20;

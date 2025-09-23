@@ -7,6 +7,7 @@ use App\Interfaces\LotteryResultsInterface;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory as SpreadsheetFactory;
@@ -20,11 +21,15 @@ class MegaSenaService implements LotteryResultsInterface
     {
         $xlsx =  $this->fetchXlsx();
         $xlsxPath = $this->storeXlsx($xlsx);
+
+        /**
+         * @var Collection<int, array<string|null>>
+         */
         $xlsxData = collect(SpreadsheetFactory::load($xlsxPath)->getActiveSheet()->toArray());
 
-        $this->clearNonResults($xlsxData);
+        $this->formatXlsx($xlsxData);
 
-        return $xlsxData->map(fn ($result) => new LotteryResultData(
+        return $xlsxData->map(fn (array $result) => new LotteryResultData(
             $this->getResultId($result),
             $this->getResultNumbers($result),
             $this->getResultDate($result)
@@ -59,23 +64,59 @@ class MegaSenaService implements LotteryResultsInterface
         return Storage::path('mega-sena-results.xlsx');
     }
 
-    private function clearNonResults(Collection $xlsxData)
+    /**
+     * @param Collection<int, array<string|null>>  $xlsxData
+     * @return Collection<int, array<string|null>>
+     */
+    private function formatXlsx(Collection $xlsxData): Collection
     {
-        $xlsxData->splice(0, 7);
+        return $xlsxData->splice(0, 7);
     }
 
+    /**
+     * @param array<string|null> $result
+     * @return string
+     */
     private function getResultId(array $result): string
     {
-        return $result[0];
+        return $result[0] ?? '';
     }
 
+    /**
+     * @param array<string|null> $result
+     * @return array<string>
+     */
     private function getResultNumbers(array $result): array
     {
-        return array_slice($result, -6);
+        $numbers = array_slice($result, -6);
+
+        if (in_array(null, $numbers)) {
+            throw new Exception("Numbers array can't contain null values");
+        }
+
+        /**
+         * @var array<string>
+         */
+        return $numbers;
     }
 
+    /**
+     * @param array<string|null> $result
+     * @throws \Exception
+     * @return string
+     */
     private function getResultDate(array $result): string
     {
-        return Carbon::createFromFormat('d/m/Y', $result[1])->toDateString();
+        if ($result[1] === null) {
+            throw new Exception("XLSX cell can't be null");
+        }
+
+        $date = Carbon::createFromFormat('d/m/Y', $result[1]);
+
+        if ($date === null) {
+            throw new Exception("Couldn't parse cell date");
+        }
+
+        return $date->toDateString();
     }
 }
