@@ -13,7 +13,7 @@ const heatmapNumber = computed(() =>
   heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
 )
 
-const { backgroundColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
+const { heatColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const { backgroundColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
       'text-gray-200': isDark,
       'text-gray-800': !isDark,
     }"
-    :style="{ backgroundColor }"
+    :style="{ backgroundColor: heatColor }"
   >
     {{ number }}
   </span>

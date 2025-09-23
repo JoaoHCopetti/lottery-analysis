@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 class HeatmapService
 {
     /**
-     * Summary of getResultsHeatmap
      * @param Collection<int, LotteryResultData> $results
      * @return Collection<int, array{number: string, occurrences: int, weight: float, lightness: float}>
      */
@@ -35,12 +34,11 @@ class HeatmapService
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbersWithOccurrences, $occurrences),
-            'lightness' => $this->getLightness($weight)
+            'lightness' => (100 - $this->getDarkness($weight))
         ])->sortBy('number')->values();
     }
 
     /**
-     * Summary of getWeight
      * @param array<string, int> $numbersWithOccurrences
      * @param int $occurrences
      * @return float
@@ -59,7 +57,7 @@ class HeatmapService
         return round($baseWeight * 100, 4);
     }
 
-    private function getLightness(float $weight): float
+    private function getDarkness(float $weight): float
     {
         $MAX_THRESHOLD = 80;
         $MIN_THRESHOLD = 20;
