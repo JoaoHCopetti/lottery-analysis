@@ -1,11 +1,30 @@
 <script setup lang="ts">
-defineProps<{
+import { useHeatmapNumber } from '@/composables/use-heatmap-number'
+import { computed, inject } from 'vue'
+import { heatmapNumbersKey } from '../injection-keys'
+
+const props = defineProps<{
   number: string
 }>()
+
+const heatmapNumbers = inject(heatmapNumbersKey)
+
+const heatmapNumber = computed(() =>
+  heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
+)
+
+const { backgroundColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
-  <span class="flex size-10 items-center justify-center rounded-full bg-red-500 text-lg font-bold">
+  <span
+    class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
+    :class="{
+      'text-gray-200': isDark,
+      'text-gray-800': !isDark,
+    }"
+    :style="{ backgroundColor }"
+  >
     {{ number }}
   </span>
 </template>

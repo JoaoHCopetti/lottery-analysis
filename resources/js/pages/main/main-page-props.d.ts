@@ -5,7 +5,7 @@ export type LotteryResult = {
 }
 
 export type LotteryHeatmapNumber = {
-  number: number
+  number: string
   occurrences: number
   weight: number
   lightness: number

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { LotteryHeatmapNumber } from '../MainPageProps'
+import { useHeatmapNumber } from '@/composables/use-heatmap-number'
+import { LotteryHeatmapNumber } from '../main-page-props'
 
 const { heatmapNumber } = defineProps<{
   heatmapNumber: LotteryHeatmapNumber
 }>()
 
-const backgroundColor = computed(() => `hsl(3, 70%, ${100 - heatmapNumber.lightness}%)`)
-const isDark = computed(() => 100 - heatmapNumber.lightness < 55)
+const { backgroundColor, isDark } = useHeatmapNumber(heatmapNumber)
 </script>
 
 <template>

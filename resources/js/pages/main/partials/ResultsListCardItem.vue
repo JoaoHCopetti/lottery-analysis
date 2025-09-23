@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LotteryResult } from '../MainPageProps'
+import { LotteryResult } from '../main-page-props'
 import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
 
 defineProps<{

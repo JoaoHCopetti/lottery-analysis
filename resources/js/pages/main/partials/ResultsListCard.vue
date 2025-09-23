@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
-import IPhListBulletsBold from '~icons/ph/list-bullets-bold'
-import { LotteryResult } from '../MainPageProps'
+import IPhListBulletsBold from 'virtual:icons/ph/list-bullets-bold'
+import { LotteryResult } from '../main-page-props'
 import ResultsListCardItem from './ResultsListCardItem.vue'
 
 defineProps<{

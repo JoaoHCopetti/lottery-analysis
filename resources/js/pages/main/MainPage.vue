@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { LotteryHeatmapNumber, LotteryResult } from './MainPageProps'
+import { provide } from 'vue'
+import { heatmapNumbersKey } from './injection-keys'
+import { LotteryHeatmapNumber, LotteryResult } from './main-page-props'
 import ResultsHeatmapCard from './partials/ResultsHeatmapCard.vue'
 import ResultsListCard from './partials/ResultsListCard.vue'
 
-defineProps<{
+const props = defineProps<{
   results: LotteryResult[]
   heatmapNumbers: LotteryHeatmapNumber[]
 }>()
+
+provide(heatmapNumbersKey, props.heatmapNumbers)
 </script>
 
 <template>
@@ -16,7 +20,10 @@ defineProps<{
     </div>
 
     <div class="w-1/4">
-      <ResultsListCard :results="results" />
+      <ResultsListCard
+        :results="results"
+        :heatmap-numbers="heatmapNumbers"
+      />
     </div>
   </div>
 </template>
