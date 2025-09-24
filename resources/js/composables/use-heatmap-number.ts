@@ -18,16 +18,13 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(heatmapNumber.number))
   const isNumberSelected = computed(() => lotteryStore.isSelected(heatmapNumber.number))
 
-  const handleMouseOver = {
+  const handleNumberEvents = {
     onMouseover() {
       lotteryStore.highlightedNumber = heatmapNumber.number
     },
     onMouseleave: () => {
       lotteryStore.highlightedNumber = ''
     },
-  }
-
-  const handleClick = {
     onClick() {
       if (lotteryStore.isSelected(heatmapNumber.number)) {
         lotteryStore.deselectNumber(heatmapNumber.number)
@@ -41,7 +38,7 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   return {
     heatColor,
     isDark,
-    handleMouseOver,
+    handleNumberEvents,
     isNumberHighlighted,
     isNumberSelected,
     classes: {
@@ -49,6 +46,5 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
       selectedClass,
       defaultHeatmapClass,
     },
-    handleClick,
   }
 }
