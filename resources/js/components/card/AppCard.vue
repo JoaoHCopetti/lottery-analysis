@@ -56,7 +56,7 @@ const headerClass = computed(() => {
 
     <div
       v-if="fadeBottom"
-      class="absolute bottom-0 left-0 h-14 w-[calc(100%-var(--scrollbar-width))] bg-gradient-to-t from-white to-transparent"
+      class="absolute bottom-0 left-0 h-14 w-[calc(100%-14px)] bg-gradient-to-t from-white to-transparent"
     />
   </div>
 </template>
