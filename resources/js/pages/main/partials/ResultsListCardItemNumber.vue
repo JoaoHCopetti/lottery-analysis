@@ -13,7 +13,7 @@ const heatmapNumber = computed(() =>
   heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
 )
 
-const { heatColor, isDark, handleMouseOver, isNumberHighlighted, highlightedClass } =
+const { heatColor, isDark, handleMouseOver, handleClick, isNumberHighlighted, highlightedClass } =
   useHeatmapNumber(heatmapNumber.value!)
 </script>
 
@@ -26,7 +26,7 @@ const { heatColor, isDark, handleMouseOver, isNumberHighlighted, highlightedClas
       [highlightedClass]: isNumberHighlighted,
     }"
     :style="{ backgroundColor: heatColor }"
-    v-bind="handleMouseOver"
+    v-bind="{ ...handleMouseOver, ...handleClick }"
   >
     {{ number }}
   </span>

@@ -6,14 +6,13 @@ const LIGHTNESS_THRESHOLD = 55
 
 export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   const highlightedClass =
-    'scale-110 outline-3 shadow-2xl outline-blue-500 transition-all duration-100 cursor-default'
+    'scale-110 outline-3 shadow-2xl outline-blue-500 transition-all duration-100 cursor-pointer'
   const lotteryStore = useLotteryStore()
 
   const heatColor = computed(() => `hsl(3, 70%, ${heatmapNumber.lightness}%)`)
   const isDark = computed(() => heatmapNumber.lightness < LIGHTNESS_THRESHOLD)
-  const isNumberHighlighted = computed(
-    () => heatmapNumber.number === lotteryStore.highlightedNumber,
-  )
+  const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(heatmapNumber.number))
+  const isNumberSelected = computed(() => lotteryStore.isSelected(heatmapNumber.number))
 
   const handleMouseOver = {
     onMouseover() {
@@ -24,5 +23,19 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
     },
   }
 
-  return { heatColor, isDark, handleMouseOver, isNumberHighlighted, highlightedClass }
+  const handleClick = {
+    onClick() {
+      console.log('Hello, world!')
+    },
+  }
+
+  return {
+    heatColor,
+    isDark,
+    handleMouseOver,
+    isNumberHighlighted,
+    isNumberSelected,
+    highlightedClass,
+    handleClick,
+  }
 }
