@@ -13,7 +13,7 @@ const heatmapNumber = computed(() =>
   heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
 )
 
-const { heatColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
+const { heatColor, isDark, handleMouseOver } = useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
@@ -24,6 +24,7 @@ const { heatColor, isDark } = useHeatmapNumber(heatmapNumber.value!)
       'text-gray-800': !isDark,
     }"
     :style="{ backgroundColor: heatColor }"
+    v-bind="handleMouseOver"
   >
     {{ number }}
   </span>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, HTMLAttributes } from 'vue'
 
 const HEADER_CLASS_COLOR_MAP = {
   primary: 'bg-blue-600 text-white',
@@ -10,9 +10,9 @@ const props = withDefaults(
   defineProps<{
     color?: keyof typeof HEADER_CLASS_COLOR_MAP
     headerIcon?: any
-    bodyClass?: string
+    bodyProps?: HTMLAttributes
   }>(),
-  { color: 'primary', headerIcon: undefined, bodyClass: '' },
+  { color: 'primary', headerIcon: undefined, bodyClass: '', bodyProps: undefined },
 )
 
 const headerClass = computed(() => {
@@ -43,7 +43,7 @@ const headerClass = computed(() => {
 
     <div
       class="bg-white px-4 py-3"
-      :class="bodyClass"
+      v-bind="bodyProps"
     >
       <slot name="body" />
     </div>

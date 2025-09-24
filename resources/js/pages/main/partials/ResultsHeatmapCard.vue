@@ -27,7 +27,9 @@ const computedHeatmapNumbers = computed(() => {
   <AppCard
     :header-icon="IPhChartScatterBold"
     color="danger"
-    body-class="h-[calc(100vh-80px)]"
+    :body-props="{
+      class: 'h-[calc(100vh-80px)]',
+    }"
   >
     <template #header> Mapa de calor </template>
 

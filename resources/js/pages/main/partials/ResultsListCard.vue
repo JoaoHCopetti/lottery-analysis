@@ -4,27 +4,45 @@ import IPhListBulletsBold from 'virtual:icons/ph/list-bullets-bold'
 import { LotteryResult } from '../main-page-props'
 import ResultsListCardItem from './ResultsListCardItem.vue'
 
-defineProps<{
+import { useVirtualList } from '@vueuse/core'
+const props = defineProps<{
   results: LotteryResult[]
 }>()
+
+const {
+  list: virtualResults,
+  wrapperProps,
+  containerProps,
+} = useVirtualList(props.results, {
+  itemHeight: 90,
+})
 </script>
 
 <template>
   <AppCard
     :header-icon="IPhListBulletsBold"
-    body-class="h-[calc(100vh-80px)] overflow-auto"
+    :body-props="{
+      class: 'h-[calc(100vh-80px)] overflow-auto',
+      ...containerProps,
+    }"
   >
     <template #header> Resultados </template>
 
     <template #body>
-      <ul>
+      <ul v-bind="wrapperProps">
         <ResultsListCardItem
-          v-for="result in results"
-          :key="`result-list-card-item-${result.id}`"
-          :result="result"
+          v-for="result in virtualResults"
+          :key="result.data.id"
+          :result="result.data"
           class="mb-4"
         />
       </ul>
     </template>
   </AppCard>
 </template>
+
+<style scoped>
+/* .scroller {
+  height: 100%;
+} */
+</style>

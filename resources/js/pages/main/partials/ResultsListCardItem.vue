@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LotteryResult } from '../main-page-props'
 import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
 
-defineProps<{
+const props = defineProps<{
   result: LotteryResult
 }>()
+
+const date = computed(() => new Date(props.result.date).toLocaleDateString(navigator.language))
 </script>
 
 <template>
@@ -14,7 +17,7 @@ defineProps<{
     <div>
       <span class="mr-1 font-semibold">{{ result.id }}</span>
 
-      <span class="text-xs text-gray-600">({{ result.date }})</span>
+      <span class="text-xs text-gray-600">({{ date }})</span>
     </div>
 
     <div class="flex flex-row justify-between">
