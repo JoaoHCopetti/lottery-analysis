@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import { computed, HTMLAttributes } from 'vue'
 
-const HEADER_CLASS_COLOR_MAP = {
+const HEADER_COLOR_CLASS_MAP = {
   primary: 'bg-blue-600 text-white',
   danger: 'bg-red-700 text-white',
 }
 
 const props = withDefaults(
   defineProps<{
-    color?: keyof typeof HEADER_CLASS_COLOR_MAP
+    color?: keyof typeof HEADER_COLOR_CLASS_MAP
     headerIcon?: any
     bodyProps?: HTMLAttributes
   }>(),
-  { color: 'primary', headerIcon: undefined, bodyClass: '', bodyProps: undefined },
+  {
+    color: 'primary',
+    headerIcon: undefined,
+    bodyProps: undefined,
+  },
 )
 
 const headerClass = computed(() => {
   const classes = []
 
-  classes.push(HEADER_CLASS_COLOR_MAP[props.color])
+  classes.push(HEADER_COLOR_CLASS_MAP[props.color])
 
   return classes
 })

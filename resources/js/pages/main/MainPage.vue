@@ -2,8 +2,8 @@
 import { LotteryHeatmapNumber, LotteryResult } from '@/types'
 import { provide } from 'vue'
 import { heatmapNumbersKey } from './injection-keys'
-import ResultsHeatmapCard from './partials/ResultsHeatmapCard.vue'
-import ResultsListCard from './partials/ResultsListCard.vue'
+import ResultsHeatmapCard from './partials-results-heatmap/ResultsHeatmapCard.vue'
+import ResultsListCard from './partials-results-list/ResultsListCard.vue'
 
 const props = defineProps<{
   results: LotteryResult[]
