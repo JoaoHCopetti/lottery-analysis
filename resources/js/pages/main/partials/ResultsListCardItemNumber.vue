@@ -13,7 +13,8 @@ const heatmapNumber = computed(() =>
   heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
 )
 
-const { heatColor, isDark, handleMouseOver } = useHeatmapNumber(heatmapNumber.value!)
+const { heatColor, isDark, handleMouseOver, isNumberHighlighted, highlightedClass } =
+  useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
@@ -22,6 +23,7 @@ const { heatColor, isDark, handleMouseOver } = useHeatmapNumber(heatmapNumber.va
     :class="{
       'text-gray-200': isDark,
       'text-gray-800': !isDark,
+      [highlightedClass]: isNumberHighlighted,
     }"
     :style="{ backgroundColor: heatColor }"
     v-bind="handleMouseOver"

@@ -6,13 +6,18 @@ const { heatmapNumber } = defineProps<{
   heatmapNumber: LotteryHeatmapNumber
 }>()
 
-const { heatColor, isDark, handleMouseOver } = useHeatmapNumber(heatmapNumber)
+const { heatColor, isDark, handleMouseOver, isNumberHighlighted, highlightedClass } =
+  useHeatmapNumber(heatmapNumber)
 </script>
 
 <template>
   <div
     class="flex h-full w-full flex-col items-center justify-center rounded"
-    :class="{ 'text-gray-200': isDark, 'text-gray-800': !isDark }"
+    :class="{
+      'text-gray-200': isDark,
+      'text-gray-800': !isDark,
+      [highlightedClass]: isNumberHighlighted,
+    }"
     :style="{ backgroundColor: heatColor }"
     v-bind="handleMouseOver"
   >
