@@ -5,8 +5,12 @@ import { computed } from 'vue'
 const LIGHTNESS_THRESHOLD = 55
 
 export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
-  const highlightedClass =
-    'scale-110 outline-3 shadow-2xl outline-blue-500 transition-all duration-100 cursor-pointer'
+  const defaultHeatmapClass = 'transition-all duration-200'
+  const sharedClass = 'outline-3 cursor-pointer'
+  const highlightedClass = sharedClass + ' scale-110 outline-green-500 z-[150]'
+  const selectedClass =
+    sharedClass + ' outline-green-500 shadow-[0_0px_5px_5px] shadow-green-400 z-[100]'
+
   const lotteryStore = useLotteryStore()
 
   const heatColor = computed(() => `hsl(3, 70%, ${heatmapNumber.lightness}%)`)
@@ -25,7 +29,12 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
 
   const handleClick = {
     onClick() {
-      console.log('Hello, world!')
+      if (lotteryStore.isSelected(heatmapNumber.number)) {
+        lotteryStore.deselectNumber(heatmapNumber.number)
+        return
+      }
+
+      lotteryStore.selectNumber(heatmapNumber.number)
     },
   }
 
@@ -35,7 +44,11 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
     handleMouseOver,
     isNumberHighlighted,
     isNumberSelected,
-    highlightedClass,
+    classes: {
+      highlightedClass,
+      selectedClass,
+      defaultHeatmapClass,
+    },
     handleClick,
   }
 }
