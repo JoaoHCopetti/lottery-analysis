@@ -1,6 +1,6 @@
 import { useLotteryStore } from '@/stores/lottery-store'
 import { LotteryHeatmapNumber } from '@/types'
-import { computed } from 'vue'
+import { computed, HTMLAttributes } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
 
@@ -23,7 +23,24 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(heatmapNumber.number))
   const isNumberSelected = computed(() => lotteryStore.isSelected(heatmapNumber.number))
 
-  const heatmapElAttrs = computed(() => ({
+  const highlightNumber = () => {
+    lotteryStore.highlightedNumber = heatmapNumber.number
+  }
+
+  const unhighlightNumber = () => {
+    lotteryStore.highlightedNumber = ''
+  }
+
+  const toggleNumberSelect = () => {
+    if (lotteryStore.isSelected(heatmapNumber.number)) {
+      lotteryStore.deselectNumber(heatmapNumber.number)
+      return
+    }
+
+    lotteryStore.selectNumber(heatmapNumber.number)
+  }
+
+  const heatmapElAttrs = computed<HTMLAttributes>(() => ({
     class: [
       HEATMAP_CLASSES.DEFAULT,
       {
@@ -36,20 +53,11 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
     style: {
       backgroundColor: heatColor.value,
     },
-    onMouseover() {
-      lotteryStore.highlightedNumber = heatmapNumber.number
-    },
-    onMouseleave: () => {
-      lotteryStore.highlightedNumber = ''
-    },
-    onClick() {
-      if (lotteryStore.isSelected(heatmapNumber.number)) {
-        lotteryStore.deselectNumber(heatmapNumber.number)
-        return
-      }
-
-      lotteryStore.selectNumber(heatmapNumber.number)
-    },
+    onFocusin: highlightNumber,
+    onFocusout: unhighlightNumber,
+    onMouseover: highlightNumber,
+    onMouseleave: unhighlightNumber,
+    onClick: toggleNumberSelect,
   }))
 
   return {

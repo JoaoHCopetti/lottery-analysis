@@ -18,7 +18,7 @@ const enabled = defineModel<boolean>({ default: false })
         class="relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full"
         @update:model-value="$emit('update:modelValue', $event)"
       >
-        <span class="sr-only">Enable notifications</span>
+        <span class="sr-only">{{ label }}</span>
 
         <span
           :class="enabled ? 'translate-x-6' : 'translate-x-1'"

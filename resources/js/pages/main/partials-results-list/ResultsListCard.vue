@@ -14,7 +14,7 @@ const {
   wrapperProps,
   containerProps,
 } = useVirtualList(props.results, {
-  itemHeight: 90,
+  itemHeight: 98,
 })
 </script>
 
@@ -40,9 +40,3 @@ const {
     </template>
   </AppCard>
 </template>
-
-<style scoped>
-/* .scroller {
-  height: 100%;
-} */
-</style>

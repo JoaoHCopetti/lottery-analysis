@@ -2,6 +2,7 @@
 import { LotteryHeatmapNumber, LotteryResult } from '@/types'
 import { provide } from 'vue'
 import { heatmapNumbersKey } from './injection-keys'
+import GeneralDataCard from './partials-general-data/GeneralDataCard.vue'
 import ResultsHeatmapCard from './partials-results-heatmap/ResultsHeatmapCard.vue'
 import ResultsListCard from './partials-results-list/ResultsListCard.vue'
 
@@ -14,16 +15,11 @@ provide(heatmapNumbersKey, props.heatmapNumbers)
 </script>
 
 <template>
-  <div class="flex gap-3 px-10 py-2">
-    <div class="w-2/6">
-      <ResultsHeatmapCard :heatmap-numbers="heatmapNumbers" />
-    </div>
+  <div class="grid grid-cols-[1.5fr_1.2fr_2fr] gap-3 px-10 py-2">
+    <ResultsHeatmapCard :heatmap-numbers="heatmapNumbers" />
 
-    <div class="w-1/4">
-      <ResultsListCard
-        :results="results"
-        :heatmap-numbers="heatmapNumbers"
-      />
-    </div>
+    <ResultsListCard :results="results" />
+
+    <GeneralDataCard />
   </div>
 </template>

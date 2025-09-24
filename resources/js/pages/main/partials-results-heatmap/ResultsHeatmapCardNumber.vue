@@ -10,12 +10,14 @@ const { heatmapElAttrs } = useHeatmapNumber(heatmapNumber)
 </script>
 
 <template>
-  <div
+  <button
     class="flex h-full w-full flex-col items-center justify-center rounded"
     v-bind="heatmapElAttrs"
+    tabindex="0"
+    type="button"
   >
     <div class="text-xl font-bold">{{ heatmapNumber.number }}</div>
 
     <div class="text-sm font-bold">{{ heatmapNumber.occurrences }}</div>
-  </div>
+  </button>
 </template>

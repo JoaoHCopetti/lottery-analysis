@@ -17,10 +17,12 @@ const { heatmapElAttrs } = useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
-  <span
+  <button
     class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
+    tabindex="1"
+    type="button"
     v-bind="heatmapElAttrs"
   >
     {{ number }}
-  </span>
+  </button>
 </template>
