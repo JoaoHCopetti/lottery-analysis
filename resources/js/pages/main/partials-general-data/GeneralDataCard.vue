@@ -10,6 +10,6 @@ import IPhInfo from 'virtual:icons/ph/info-bold'
   >
     <template #header> Dados gerais </template>
 
-    <template #body> ola </template>
+    <template #body> Hello, world!</template>
   </AppCard>
 </template>

@@ -25,6 +25,7 @@ const {
       class: 'h-[calc(100vh-80px)] overflow-auto',
       ...containerProps,
     }"
+    fade-bottom
   >
     <template #header> Resultados </template>
 

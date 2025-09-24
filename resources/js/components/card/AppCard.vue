@@ -11,11 +11,13 @@ const props = withDefaults(
     color?: keyof typeof HEADER_COLOR_CLASS_MAP
     headerIcon?: any
     bodyProps?: HTMLAttributes
+    fadeBottom?: boolean
   }>(),
   {
     color: 'primary',
     headerIcon: undefined,
     bodyProps: undefined,
+    fadeBottom: false,
   },
 )
 
@@ -29,7 +31,7 @@ const headerClass = computed(() => {
 </script>
 
 <template>
-  <div class="overflow-hidden rounded shadow-lg">
+  <div class="relative overflow-hidden rounded shadow-lg">
     <div
       v-if="$slots['header']"
       class="px-4 py-3 text-lg font-bold"
@@ -46,10 +48,15 @@ const headerClass = computed(() => {
     </div>
 
     <div
-      class="bg-white px-4 py-3"
+      class="relative bg-white px-4 py-3"
       v-bind="bodyProps"
     >
       <slot name="body" />
     </div>
+
+    <div
+      v-if="fadeBottom"
+      class="absolute bottom-0 left-0 h-14 w-[calc(100%-var(--scrollbar-width))] bg-gradient-to-t from-white to-transparent"
+    />
   </div>
 </template>
