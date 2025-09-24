@@ -13,22 +13,13 @@ const heatmapNumber = computed(() =>
   heatmapNumbers?.find((heatmapNumber) => heatmapNumber.number === props.number),
 )
 
-const { heatColor, isDark, handleNumberEvents, isNumberHighlighted, isNumberSelected, classes } =
-  useHeatmapNumber(heatmapNumber.value!)
+const { heatmapElAttrs } = useHeatmapNumber(heatmapNumber.value!)
 </script>
 
 <template>
   <span
     class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
-    :class="{
-      'text-gray-200': isDark,
-      'text-gray-800': !isDark,
-      [classes.defaultHeatmapClass]: true,
-      [classes.highlightedClass]: isNumberHighlighted,
-      [classes.selectedClass]: isNumberSelected,
-    }"
-    :style="{ backgroundColor: heatColor }"
-    v-bind="handleNumberEvents"
+    v-bind="heatmapElAttrs"
   >
     {{ number }}
   </span>

@@ -4,13 +4,18 @@ import { computed } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
 
-export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
-  const defaultHeatmapClass = 'transition-all duration-200'
-  const sharedClass = 'outline-3 cursor-pointer'
-  const highlightedClass = sharedClass + ' scale-110 outline-green-500 z-[150]'
-  const selectedClass =
-    sharedClass + ' outline-green-500 shadow-[0_0px_5px_5px] shadow-green-400 z-[100]'
+const HEATMAP_CLASSES = {
+  DEFAULT: 'transition-all',
+  SHARED: 'outline-3 cursor-pointer',
+  get HIGHLIGHTED() {
+    return this.SHARED + ' scale-110 outline-green-500 z-[150]'
+  },
+  get SELECTED() {
+    return this.SHARED + ' outline-green-500 shadow-[0_0px_5px_5px] shadow-green-400 z-[100]'
+  },
+}
 
+export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   const lotteryStore = useLotteryStore()
 
   const heatColor = computed(() => `hsl(3, 70%, ${heatmapNumber.lightness}%)`)
@@ -18,7 +23,19 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(heatmapNumber.number))
   const isNumberSelected = computed(() => lotteryStore.isSelected(heatmapNumber.number))
 
-  const handleNumberEvents = {
+  const heatmapElAttrs = computed(() => ({
+    class: [
+      HEATMAP_CLASSES.DEFAULT,
+      {
+        'text-gray-200': isDark.value,
+        'text-gray-800': !isDark.value,
+        [HEATMAP_CLASSES.HIGHLIGHTED]: isNumberHighlighted.value,
+        [HEATMAP_CLASSES.SELECTED]: isNumberSelected.value,
+      },
+    ],
+    style: {
+      backgroundColor: heatColor.value,
+    },
     onMouseover() {
       lotteryStore.highlightedNumber = heatmapNumber.number
     },
@@ -33,18 +50,13 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
 
       lotteryStore.selectNumber(heatmapNumber.number)
     },
-  }
+  }))
 
   return {
     heatColor,
     isDark,
-    handleNumberEvents,
     isNumberHighlighted,
     isNumberSelected,
-    classes: {
-      highlightedClass,
-      selectedClass,
-      defaultHeatmapClass,
-    },
+    heatmapElAttrs,
   }
 }
