@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { LotteryHeatmapNumber, LotteryResult } from '@/types'
 import { provide } from 'vue'
 import { heatmapNumbersKey } from './injection-keys'
-import { LotteryHeatmapNumber, LotteryResult } from './main-page-props'
 import ResultsHeatmapCard from './partials/ResultsHeatmapCard.vue'
 import ResultsListCard from './partials/ResultsListCard.vue'
 

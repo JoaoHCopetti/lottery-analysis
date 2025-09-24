@@ -6,7 +6,8 @@
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "tsc": "vue-tsc"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

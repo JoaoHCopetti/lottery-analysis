@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { LotteryResult } from '@/types'
 import { computed } from 'vue'
-import { LotteryResult } from '../main-page-props'
 import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
 
 const props = defineProps<{

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHeatmapNumber } from '@/composables/use-heatmap-number'
-import { LotteryHeatmapNumber } from '../main-page-props'
+import { LotteryHeatmapNumber } from '@/types'
 
 const { heatmapNumber } = defineProps<{
   heatmapNumber: LotteryHeatmapNumber

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
 import AppToggle from '@/components/toggle/AppToggle.vue'
+import { LotteryHeatmapNumber } from '@/types'
 import { computed } from 'vue'
 import IPhChartScatterBold from '~icons/ph/chart-scatter-bold'
-import { LotteryHeatmapNumber } from '../main-page-props'
 import ResultsHeatmapCardNumber from './ResultsHeatmapCardNumber.vue'
 
 const props = defineProps<{

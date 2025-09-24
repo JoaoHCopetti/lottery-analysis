@@ -1,5 +1,5 @@
-import { LotteryHeatmapNumber } from '@/pages/main/main-page-props'
 import { useLotteryStore } from '@/stores/lottery-store'
+import { LotteryHeatmapNumber } from '@/types'
 import { computed } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
