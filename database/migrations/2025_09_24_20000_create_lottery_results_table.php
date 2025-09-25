@@ -18,6 +18,8 @@ return new class () extends Migration {
             $table->string('contest');
             $table->string('numbers');
             $table->date('date');
+
+            $table->unique(['lottery_id', 'contest']);
         });
     }
 

@@ -13,6 +13,7 @@ return new class () extends Migration {
         Schema::create('lotteries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->unsignedTinyInteger('numbers_per_result');
         });
     }

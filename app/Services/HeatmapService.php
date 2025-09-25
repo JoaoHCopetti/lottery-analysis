@@ -8,10 +8,6 @@ use Illuminate\Support\Collection;
 
 class HeatmapService
 {
-    /**
-     * @param Collection<int, LotteryResultData> $results
-     * @return Collection<int, array{number: string, occurrences: int, weight: float, lightness: float}>
-     */
     public function getResultsHeatmap(Collection $results)
     {
         $allNumbers = $results->pluck('numbers')->collapse()->values();
