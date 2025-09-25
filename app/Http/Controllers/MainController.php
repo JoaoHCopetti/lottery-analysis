@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\MegaSenaFetchAction;
 use App\Enums\LotteriesEnum;
 use App\Models\Lottery;
 use App\Services\NumberDetailsService;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class MainController extends Controller
@@ -20,7 +18,7 @@ class MainController extends Controller
 
         assert($lottery !== null);
 
-        $results = $lottery->results()->where('date', '>', '2009-01-01')->get();
+        $results = $lottery->results()->get();
         $numbers = app(NumberDetailsService::class)->getDetailedNumbers($results);
 
         return Inertia::render('main/MainPage', [
