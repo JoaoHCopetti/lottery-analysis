@@ -25,6 +25,7 @@ export default defineConfig({
     }),
     wayfinder({
       formVariants: true,
+      path: 'resources/js/wayfinder',
     }),
     Components({
       resolvers: [IconsResolver()],
