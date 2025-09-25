@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schedule;
+use App\Console\Commands\FetchLotteryResultsCommand;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Schedule::command(FetchLotteryResultsCommand::class, ['mega-sena'])
+    ->hourly()
+    ->after(function () {
+        Cache::forget('mega-sena:numbers');
+    });

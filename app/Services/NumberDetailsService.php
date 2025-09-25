@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
-
 class NumberDetailsService
 {
     /**
@@ -32,7 +30,7 @@ class NumberDetailsService
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbersWithOccurrences, $occurrences),
-            'lightness' => $this->getLightness($weight)
+            'lightness' => $this->getLightnessPercent($weight)
         ])->sortBy('number')->values();
     }
 
@@ -53,7 +51,7 @@ class NumberDetailsService
         return round($baseWeight * 100, 4);
     }
 
-    private function getLightness(float $weight): float
+    private function getLightnessPercent(float $weight): float
     {
         $MAX_THRESHOLD = 90;
         $MIN_THRESHOLD = 10;
