@@ -32,7 +32,7 @@ class NumberDetailsService
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbersWithOccurrences, $occurrences),
-            'lightness' => (100 - $this->getDarkness($weight))
+            'lightness' => $this->getLightness($weight)
         ])->sortBy('number')->values();
     }
 
@@ -53,19 +53,21 @@ class NumberDetailsService
         return round($baseWeight * 100, 4);
     }
 
-    private function getDarkness(float $weight): float
+    private function getLightness(float $weight): float
     {
-        $MAX_THRESHOLD = 80;
-        $MIN_THRESHOLD = 20;
+        $MAX_THRESHOLD = 90;
+        $MIN_THRESHOLD = 10;
+
+        $darkness = $weight;
 
         if ($weight < $MIN_THRESHOLD) {
-            return $MIN_THRESHOLD;
+            $darkness = $MIN_THRESHOLD;
         }
 
         if ($weight > $MAX_THRESHOLD) {
-            return $MAX_THRESHOLD;
+            $darkness = $MAX_THRESHOLD;
         }
 
-        return $weight;
+        return 100 - $darkness;
     }
 }
