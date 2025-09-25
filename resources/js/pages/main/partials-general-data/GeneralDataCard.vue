@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
+import AppDatePicker from '@/components/date-picker/AppDatePicker.vue'
 import IPhInfo from 'virtual:icons/ph/info-bold'
 </script>
 
@@ -10,6 +11,8 @@ import IPhInfo from 'virtual:icons/ph/info-bold'
   >
     <template #header> Dados gerais </template>
 
-    <template #body> Hello, world!</template>
+    <template #body>
+      <AppDatePicker />
+    </template>
   </AppCard>
 </template>
