@@ -15,7 +15,7 @@ const date = computed(() => new Date(props.result.date).toLocaleDateString(navig
     <div class="text-xs font-bold text-gray-600">Concurso</div>
 
     <div>
-      <span class="mr-1 font-semibold">{{ result.id }}</span>
+      <span class="mr-1 font-semibold">{{ result.contest }}</span>
 
       <span class="text-xs text-gray-600">({{ date }})</span>
     </div>

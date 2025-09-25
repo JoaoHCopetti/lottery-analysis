@@ -1,4 +1,4 @@
-import { LotteryHeatmapNumber } from '@/types'
+import { LotteryNumber } from '@/types'
 import { InjectionKey } from 'vue'
 
-export const heatmapNumbersKey = Symbol() as InjectionKey<LotteryHeatmapNumber[]>
+export const lotteryNumbersKey = Symbol() as InjectionKey<LotteryNumber[]>

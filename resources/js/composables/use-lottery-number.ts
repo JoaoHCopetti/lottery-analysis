@@ -1,10 +1,10 @@
 import { useLotteryStore } from '@/stores/lottery-store'
-import { LotteryHeatmapNumber } from '@/types'
+import { LotteryNumber } from '@/types'
 import { computed, HTMLAttributes } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
 
-const HEATMAP_CLASSES = {
+const NUMBER_CLASSES = {
   DEFAULT: 'transition-all',
   SHARED: 'outline-3 cursor-pointer',
   get HIGHLIGHTED() {
@@ -15,16 +15,16 @@ const HEATMAP_CLASSES = {
   },
 }
 
-export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
+export function useLotteryNumber(number: LotteryNumber) {
   const lotteryStore = useLotteryStore()
 
-  const heatColor = computed(() => `hsl(3, 70%, ${heatmapNumber.lightness}%)`)
-  const isDark = computed(() => heatmapNumber.lightness < LIGHTNESS_THRESHOLD)
-  const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(heatmapNumber.number))
-  const isNumberSelected = computed(() => lotteryStore.isSelected(heatmapNumber.number))
+  const heatColor = computed(() => `hsl(3, 70%, ${number.lightness}%)`)
+  const isDark = computed(() => number.lightness < LIGHTNESS_THRESHOLD)
+  const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(number.number))
+  const isNumberSelected = computed(() => lotteryStore.isSelected(number.number))
 
   const highlightNumber = () => {
-    lotteryStore.highlightedNumber = heatmapNumber.number
+    lotteryStore.highlightedNumber = number.number
   }
 
   const unhighlightNumber = () => {
@@ -32,22 +32,22 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
   }
 
   const toggleNumberSelect = () => {
-    if (lotteryStore.isSelected(heatmapNumber.number)) {
-      lotteryStore.deselectNumber(heatmapNumber.number)
+    if (lotteryStore.isSelected(number.number)) {
+      lotteryStore.deselectNumber(number.number)
       return
     }
 
-    lotteryStore.selectNumber(heatmapNumber.number)
+    lotteryStore.selectNumber(number.number)
   }
 
-  const heatmapElAttrs = computed<HTMLAttributes>(() => ({
+  const numberElAttrs = computed<HTMLAttributes>(() => ({
     class: [
-      HEATMAP_CLASSES.DEFAULT,
+      NUMBER_CLASSES.DEFAULT,
       {
         'text-gray-200': isDark.value,
         'text-gray-800': !isDark.value,
-        [HEATMAP_CLASSES.HIGHLIGHTED]: isNumberHighlighted.value,
-        [HEATMAP_CLASSES.SELECTED]: isNumberSelected.value,
+        [NUMBER_CLASSES.HIGHLIGHTED]: isNumberHighlighted.value,
+        [NUMBER_CLASSES.SELECTED]: isNumberSelected.value,
       },
     ],
     style: {
@@ -65,6 +65,6 @@ export function useHeatmapNumber(heatmapNumber: LotteryHeatmapNumber) {
     isDark,
     isNumberHighlighted,
     isNumberSelected,
-    heatmapElAttrs,
+    numberElAttrs,
   }
 }

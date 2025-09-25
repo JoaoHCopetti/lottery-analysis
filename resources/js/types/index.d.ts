@@ -1,10 +1,11 @@
 export type LotteryResult = {
   id: string
+  contest: string
   date: string
   numbers: string[]
 }
 
-export type LotteryHeatmapNumber = {
+export type LotteryNumber = {
   number: string
   occurrences: number
   weight: number

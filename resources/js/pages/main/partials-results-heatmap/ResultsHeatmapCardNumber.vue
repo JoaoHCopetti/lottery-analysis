@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useHeatmapNumber } from '@/composables/use-heatmap-number'
-import { LotteryHeatmapNumber } from '@/types'
+import { useLotteryNumber } from '@/composables/use-lottery-number'
+import { LotteryNumber } from '@/types'
 
-const { heatmapNumber } = defineProps<{
-  heatmapNumber: LotteryHeatmapNumber
+const { number } = defineProps<{
+  number: LotteryNumber
 }>()
 
-const { heatmapElAttrs } = useHeatmapNumber(heatmapNumber)
+const { numberElAttrs } = useLotteryNumber(number)
 </script>
 
 <template>
   <button
     class="flex h-full w-full flex-col items-center justify-center rounded"
-    v-bind="heatmapElAttrs"
+    v-bind="numberElAttrs"
     tabindex="0"
     type="button"
   >
-    <div class="text-xl font-bold">{{ heatmapNumber.number }}</div>
+    <div class="text-xl font-bold">{{ number.number }}</div>
 
-    <div class="text-sm font-bold">{{ heatmapNumber.occurrences }}</div>
+    <div class="text-sm font-bold">{{ number.occurrences }}</div>
   </button>
 </template>

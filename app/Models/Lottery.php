@@ -14,6 +14,6 @@ class Lottery extends Model
      */
     public function results(): HasMany
     {
-        return $this->hasMany(LotteryResult::class);
+        return $this->hasMany(LotteryResult::class)->orderBy('date', 'desc');
     }
 }
