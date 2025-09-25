@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
 import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
+import IconsPlugin from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
@@ -29,7 +29,8 @@ export default defineConfig({
     }),
     Components({
       resolvers: [IconsResolver()],
+      dts: 'resources/js/types/',
     }),
-    Icons(),
+    IconsPlugin(),
   ],
 })
