@@ -16,7 +16,7 @@ class MegaSenaFetchAction implements LotteryFetchActionInterface
         $lottery = Lottery::query()->firstWhere('slug', $lotterySlug);
 
         if ($lottery === null) {
-            throw new \Exception("Lottery slug '$lotterySlug' not found");
+            throw new \Exception("Lottery with slug '$lotterySlug' not found");
         }
 
         $xlsxContent = app(MegaSenaFetchXlsxAction::class)->execute();

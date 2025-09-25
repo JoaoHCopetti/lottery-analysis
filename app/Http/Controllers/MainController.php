@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\MegaSenaFetchAction;
+use App\Enums\LotteriesEnum;
+use App\Models\Lottery;
+use App\Services\NumberDetailsService;
 use Inertia\Inertia;
 
 class MainController extends Controller
@@ -11,7 +15,16 @@ class MainController extends Controller
      */
     public function index()
     {
+        $lottery = Lottery::find(LotteriesEnum::MEGA_SENA->id());
 
-        return Inertia::render('main/MainPage');
+        assert($lottery !== null);
+
+        $results = $lottery->results()->get();
+        $numbers = app(NumberDetailsService::class)->getDetailedNumbers($results);
+
+        return Inertia::render('main/MainPage', [
+            'results' => $results,
+            'numbers' => $numbers
+        ]);
     }
 }

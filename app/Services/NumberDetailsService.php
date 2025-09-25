@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
-use App\Data\LotteryResultData;
 use Exception;
-use Illuminate\Support\Collection;
 
-class HeatmapService
+class NumberDetailsService
 {
-    public function getResultsHeatmap(Collection $results)
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
+     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float}>
+     */
+    public function getDetailedNumbers($results)
     {
         $allNumbers = $results->pluck('numbers')->collapse()->values();
 
@@ -41,9 +43,7 @@ class HeatmapService
      */
     private function getWeight(array $numbersWithOccurrences, int $occurrences): float
     {
-        if (empty($numbersWithOccurrences)) {
-            throw new Exception("numbers with occurrences can't be empty");
-        }
+        assert(!empty($numbersWithOccurrences));
 
         $min = min($numbersWithOccurrences);
         $max = max($numbersWithOccurrences);
