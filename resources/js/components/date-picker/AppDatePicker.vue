@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { chunk, clone } from 'lodash-es'
+import { clone } from 'lodash-es'
 import IPhArrowLeftBold from 'virtual:icons/ph/arrow-left-bold'
 import IPhArrowRightBold from 'virtual:icons/ph/arrow-right-bold'
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import AppButton from '../button/AppButton.vue'
+import CalendarTable from './CalendarTable.vue'
+import { currentMonthKey } from './date-picker-injection-keys'
 
-const todayDate = ref(new Date())
 const currentMonth = ref(new Date().getMonth())
 
 const firstDate = computed(() => {
@@ -33,6 +34,11 @@ const monthDays = computed(() => {
   const days = []
   const date = firstDate.value
 
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+
   while (firstDate.value <= lastDate.value) {
     days.push(clone(date))
     date.setDate(date.getDate() + 1)
@@ -41,7 +47,7 @@ const monthDays = computed(() => {
   return days
 })
 
-const tableWeeks = computed(() => chunk(monthDays.value, 7))
+provide(currentMonthKey, currentMonth)
 </script>
 
 <template>
@@ -75,54 +81,6 @@ const tableWeeks = computed(() => chunk(monthDays.value, 7))
 
     <hr class="my-3 border-gray-200" />
 
-    <table>
-      <thead>
-        <tr class="*:p-1 *:font-semibold">
-          <td>Dom</td>
-
-          <td>Seg</td>
-
-          <td>Ter</td>
-
-          <td>Qua</td>
-
-          <td>Qui</td>
-
-          <td>Sex</td>
-
-          <td>Sáb</td>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr
-          v-for="(week, index) in tableWeeks"
-          :key="`week_${index}`"
-        >
-          <td
-            v-for="date in week"
-            :key="date.toDateString()"
-            class="p-1 text-center"
-          >
-            <span
-              class="relative flex size-9 cursor-pointer items-center justify-center rounded-full text-sm transition-colors hover:bg-gray-200 active:bg-gray-300"
-              :class="[
-                date.getMonth() === currentMonth ? '' : 'pointer-events-none text-gray-400',
-                {
-                  'font-semibold': date.toDateString() === todayDate.toDateString(),
-                },
-              ]"
-            >
-              <span
-                v-if="date.toDateString() === todayDate.toDateString()"
-                class="absolute -top-1 text-green-500"
-                >&bull;</span
-              >
-              {{ date.getDate() }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <CalendarTable :dates="monthDays" />
   </div>
 </template>
