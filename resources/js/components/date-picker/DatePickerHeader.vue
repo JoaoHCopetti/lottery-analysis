@@ -9,7 +9,7 @@ const currentMonth = inject(selectedMonthKey) as Ref<number>
 </script>
 
 <template>
-  <div class="flex justify-between">
+  <div class="flex items-center justify-between">
     <AppButton
       :icon="IPhArrowLeftBold"
       color="light"

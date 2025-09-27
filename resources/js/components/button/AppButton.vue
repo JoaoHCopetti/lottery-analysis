@@ -26,11 +26,11 @@ const isIconOnly = computed(() => props.icon && !props.label && !useSlots()['lab
 
 <template>
   <button
-    class="cursor-pointer rounded-md p-2 transition-all"
+    class="h-10 cursor-pointer rounded-md px-2 transition-all"
     :class="[
       BUTTON_COLOR_CLASS_MAP[color],
       {
-        'flex size-9 items-center justify-center': isIconOnly,
+        'flex w-10 items-center justify-center': isIconOnly,
       },
     ]"
   >
