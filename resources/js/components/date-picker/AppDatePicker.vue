@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { clone } from 'lodash-es'
-import IPhArrowLeftBold from 'virtual:icons/ph/arrow-left-bold'
-import IPhArrowRightBold from 'virtual:icons/ph/arrow-right-bold'
 import { computed, provide, ref } from 'vue'
-import AppButton from '../button/AppButton.vue'
 import CalendarTable from './CalendarTable.vue'
-import { currentMonthKey } from './date-picker-injection-keys'
+import { selectedMonthKey } from './date-picker-injection-keys'
+import DatePickerHeader from './DatePickerHeader.vue'
 
-const currentMonth = ref(new Date().getMonth())
+const selectedMonth = ref(new Date().getMonth())
 
 const firstDate = computed(() => {
   const date = new Date()
 
   date.setDate(1)
-  date.setMonth(currentMonth.value)
+  date.setMonth(selectedMonth.value)
   date.setDate(date.getDate() - date.getDay())
 
   return date
@@ -22,7 +20,7 @@ const firstDate = computed(() => {
 const lastDate = computed(() => {
   const date = new Date()
 
-  date.setMonth(currentMonth.value)
+  date.setMonth(selectedMonth.value)
   date.setMonth(date.getMonth() + 1)
   date.setDate(0)
   date.setDate(date.getDate() + (6 - date.getDay()))
@@ -47,37 +45,12 @@ const monthDays = computed(() => {
   return days
 })
 
-provide(currentMonthKey, currentMonth)
+provide(selectedMonthKey, selectedMonth)
 </script>
 
 <template>
   <div class="w-fit">
-    <div class="flex justify-between">
-      <AppButton
-        :icon="IPhArrowLeftBold"
-        color="light"
-        @click="currentMonth--"
-      />
-
-      <div class="font-bold">
-        <AppButton
-          color="light"
-          class="mr-3"
-          label="Fevereiro"
-        />
-
-        <AppButton
-          color="light"
-          label="2025"
-        />
-      </div>
-
-      <AppButton
-        :icon="IPhArrowRightBold"
-        color="light"
-        @click="currentMonth++"
-      />
-    </div>
+    <DatePickerHeader />
 
     <hr class="my-3 border-gray-200" />
 
