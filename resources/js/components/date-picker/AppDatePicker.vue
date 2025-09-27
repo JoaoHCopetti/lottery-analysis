@@ -28,8 +28,8 @@ const lastDate = computed(() => {
   return date
 })
 
-const monthDays = computed(() => {
-  const days = []
+const dates = computed(() => {
+  const _dates = []
   const date = firstDate.value
 
   date.setHours(0)
@@ -38,11 +38,11 @@ const monthDays = computed(() => {
   date.setMilliseconds(0)
 
   while (firstDate.value <= lastDate.value) {
-    days.push(clone(date))
+    _dates.push(clone(date))
     date.setDate(date.getDate() + 1)
   }
 
-  return days
+  return _dates
 })
 
 provide(selectedMonthKey, selectedMonth)
@@ -54,6 +54,6 @@ provide(selectedMonthKey, selectedMonth)
 
     <hr class="my-3 border-gray-200" />
 
-    <CalendarTable :dates="monthDays" />
+    <CalendarTable :dates="dates" />
   </div>
 </template>
