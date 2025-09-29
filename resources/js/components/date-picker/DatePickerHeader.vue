@@ -41,21 +41,22 @@ const previousMonth = () => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-2">
     <AppButton
       :icon="IPhArrowLeftBold"
       color="light"
       @click="previousMonth"
     />
 
-    <div class="font-bold">
+    <div class="w-full font-bold">
       <AppButton
+        class="w-1/2"
         color="light"
-        class="mr-3"
         :label="monthLabel"
       />
 
       <AppButton
+        class="w-1/2"
         color="light"
         :label="`${selectedDate.year}`"
       />
