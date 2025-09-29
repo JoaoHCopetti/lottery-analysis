@@ -1,25 +1,42 @@
 <script setup lang="ts">
+import { getMonthName } from '@/lib/utils'
 import { CalendarDate } from '@/types'
-import { upperFirst } from 'lodash-es'
+import { kebabCase, upperFirst } from 'lodash-es'
 import IPhArrowLeftBold from 'virtual:icons/ph/arrow-left-bold'
 import IPhArrowRightBold from 'virtual:icons/ph/arrow-right-bold'
-import { computed, inject, Ref } from 'vue'
+import { computed, inject, type Ref } from 'vue'
 import AppButton from '../button/AppButton.vue'
+import AppDropdown from '../dropdown/AppDropdown.vue'
 import { calendarDateKey } from './date-picker-injection-keys'
 
 const selectedDate = inject(calendarDateKey) as Ref<CalendarDate>
 
-const monthLabel = computed(() => {
-  const date = new Date(selectedDate.value.year, selectedDate.value.month, selectedDate.value.day)
+const monthsOptions = computed(() =>
+  Array.from({ length: 12 }).map((_, index) => {
+    const monthName = getMonthName(index)
 
-  return upperFirst(
-    date.toLocaleDateString(navigator.language, {
-      month: 'long',
-    }),
-  )
-})
+    return {
+      key: kebabCase(monthName),
+      label: upperFirst(monthName),
+      value: index,
+    }
+  }),
+)
 
-const nextMonth = () => {
+const yearsOptions = computed(() =>
+  Array.from({ length: 100 }).map((_, index) => {
+    const date = new Date()
+
+    const year = date.getFullYear() - index
+    return {
+      key: `${year}`,
+      label: `${year}`,
+      value: year,
+    }
+  }),
+)
+
+const incrementMonth = () => {
   if (selectedDate.value.month === 11) {
     selectedDate.value.month = 0
     selectedDate.value.year++
@@ -29,7 +46,7 @@ const nextMonth = () => {
   selectedDate.value.month++
 }
 
-const previousMonth = () => {
+const decrementMonth = () => {
   if (selectedDate.value.month === 0) {
     selectedDate.value.month = 11
     selectedDate.value.year--
@@ -45,27 +62,31 @@ const previousMonth = () => {
     <AppButton
       :icon="IPhArrowLeftBold"
       color="light"
-      @click="previousMonth"
+      @click="decrementMonth"
     />
 
     <div class="w-full font-bold">
-      <AppButton
-        class="w-1/2"
-        color="light"
-        :label="monthLabel"
+      <AppDropdown
+        class="inline-block w-1/2"
+        :items="monthsOptions"
+        :button-props="{ color: 'light', label: upperFirst(getMonthName(selectedDate.month)) }"
+        :menu-props="{ class: 'w-40 max-h-52 overflow-y-scroll' }"
+        @item-click="selectedDate.month = $event.value"
       />
 
-      <AppButton
-        class="w-1/2"
-        color="light"
-        :label="`${selectedDate.year}`"
+      <AppDropdown
+        class="inline-block w-1/2"
+        :items="yearsOptions"
+        :button-props="{ color: 'light', label: `${selectedDate.year}` }"
+        :menu-props="{ class: 'w-30 max-h-52 overflow-y-scroll' }"
+        @item-click="selectedDate.year = $event.value"
       />
     </div>
 
     <AppButton
       :icon="IPhArrowRightBold"
       color="light"
-      @click="nextMonth"
+      @click="incrementMonth"
     />
   </div>
 </template>
