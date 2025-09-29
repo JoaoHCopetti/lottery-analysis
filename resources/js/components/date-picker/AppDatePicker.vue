@@ -4,14 +4,15 @@ import { clone } from 'lodash-es'
 import { computed, provide, ref } from 'vue'
 import CalendarTable from './CalendarTable.vue'
 import DatePickerHeader from './DatePickerHeader.vue'
-import { calendarDateKey } from './date-picker-injection-keys'
+import { calendarDateKey, selectedDateKey } from './date-picker-injection-keys'
 
-const now = new Date()
+const date = new Date()
+const selectedDate = ref<Date>()
 
 const calendarDate = ref<CalendarDate>({
   day: 1,
-  month: now.getMonth(),
-  year: now.getFullYear(),
+  month: date.getMonth(),
+  year: date.getFullYear(),
 })
 
 const firstDate = computed(() => {
@@ -53,6 +54,7 @@ const dates = computed(() => {
 })
 
 provide(calendarDateKey, calendarDate)
+provide(selectedDateKey, selectedDate)
 </script>
 
 <template>
