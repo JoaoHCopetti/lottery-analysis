@@ -1,28 +1,35 @@
 <script setup lang="ts">
+import { CalendarDate } from '@/types'
 import { clone } from 'lodash-es'
 import { computed, provide, ref } from 'vue'
 import CalendarTable from './CalendarTable.vue'
-import { selectedMonthKey } from './date-picker-injection-keys'
 import DatePickerHeader from './DatePickerHeader.vue'
+import { calendarDateKey } from './date-picker-injection-keys'
 
-const selectedMonth = ref(new Date().getMonth())
+const now = new Date()
+
+const calendarDate = ref<CalendarDate>({
+  day: 1,
+  month: now.getMonth(),
+  year: now.getFullYear(),
+})
 
 const firstDate = computed(() => {
-  const date = new Date()
+  const { day, month, year } = calendarDate.value
+  const date = new Date(year, month, day)
 
   date.setDate(1)
-  date.setMonth(selectedMonth.value)
   date.setDate(date.getDate() - date.getDay())
 
   return date
 })
 
 const lastDate = computed(() => {
-  const date = new Date()
+  const { day, month, year } = calendarDate.value
+  const date = new Date(year, month, day)
 
-  date.setMonth(selectedMonth.value)
-  date.setMonth(date.getMonth() + 1)
   date.setDate(0)
+  date.setMonth(date.getMonth() + 1)
   date.setDate(date.getDate() + (6 - date.getDay()))
 
   return date
@@ -45,7 +52,7 @@ const dates = computed(() => {
   return _dates
 })
 
-provide(selectedMonthKey, selectedMonth)
+provide(calendarDateKey, calendarDate)
 </script>
 
 <template>

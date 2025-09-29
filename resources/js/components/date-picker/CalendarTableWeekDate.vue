@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { CalendarDate } from '@/types'
 import { inject, Ref } from 'vue'
-import { selectedMonthKey } from './date-picker-injection-keys'
+import { calendarDateKey } from './date-picker-injection-keys'
 
 defineProps<{
   date: Date
 }>()
 
-const selectedMonth = inject(selectedMonthKey) as Ref<number>
+const selectedDate = inject(calendarDateKey) as Ref<CalendarDate>
 
 const isDateToday = (date: Date) => date.toDateString() === new Date().toDateString()
-const isDateSelectedMonth = (date: Date) => date.getMonth() === selectedMonth.value
+const isDateSelectedMonth = (date: Date) => date.getMonth() === selectedDate.value.month
 </script>
 
 <template>

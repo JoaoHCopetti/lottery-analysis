@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { CalendarDate } from '@/types'
 import { upperFirst } from 'lodash-es'
 import IPhArrowLeftBold from 'virtual:icons/ph/arrow-left-bold'
 import IPhArrowRightBold from 'virtual:icons/ph/arrow-right-bold'
 import { computed, inject, Ref } from 'vue'
 import AppButton from '../button/AppButton.vue'
-import { selectedMonthKey } from './date-picker-injection-keys'
+import { calendarDateKey } from './date-picker-injection-keys'
 
-const selectedMonth = inject(selectedMonthKey) as Ref<number>
+const selectedDate = inject(calendarDateKey) as Ref<CalendarDate>
 
 const monthLabel = computed(() => {
-  const date = new Date(1, selectedMonth.value, 0)
+  const date = new Date(selectedDate.value.year, selectedDate.value.month, selectedDate.value.day)
 
   return upperFirst(
     date.toLocaleDateString(navigator.language, {
@@ -19,20 +20,23 @@ const monthLabel = computed(() => {
 })
 
 const nextMonth = () => {
-  if (selectedMonth.value === 11) {
-    selectedMonth.value = 0
+  if (selectedDate.value.month === 11) {
+    selectedDate.value.month = 0
+    selectedDate.value.year++
     return
   }
 
-  selectedMonth.value++
+  selectedDate.value.month++
 }
 
 const previousMonth = () => {
-  if (selectedMonth.value === 0) {
-    selectedMonth.value = 11
+  if (selectedDate.value.month === 0) {
+    selectedDate.value.month = 11
+    selectedDate.value.year--
     return
   }
-  selectedMonth.value--
+
+  selectedDate.value.month--
 }
 </script>
 
@@ -53,7 +57,7 @@ const previousMonth = () => {
 
       <AppButton
         color="light"
-        label="2025"
+        :label="`${selectedDate.year}`"
       />
     </div>
 

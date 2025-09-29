@@ -29,7 +29,7 @@ export default defineConfig({
     }),
     Components({
       resolvers: [IconsResolver()],
-      dts: 'resources/js/types/components.ts',
+      dts: 'resources/js/types/components.d.ts',
     }),
     IconsPlugin(),
   ],
