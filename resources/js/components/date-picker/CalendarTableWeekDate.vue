@@ -40,10 +40,12 @@ const selectDate = (date: Date) => {
     >
       <span
         v-if="isDateToday"
-        class="absolute -top-1 text-green-500"
-      >
-        &bull;
-      </span>
+        class="absolute bottom-2 h-0.5 w-1/2"
+        :class="{
+          'bg-green-500': !isSelectedDate,
+          'bg-green-300': isSelectedDate,
+        }"
+      />
       {{ date.getDate() }}
     </span>
   </td>

@@ -41,7 +41,7 @@ withDefaults(
     <MenuItems
       as="div"
       v-bind="menuProps"
-      class="absolute left-0 z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+      class="scrollbar-custom absolute left-0 z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg focus:outline-none"
     >
       <MenuItem
         v-for="item in items"

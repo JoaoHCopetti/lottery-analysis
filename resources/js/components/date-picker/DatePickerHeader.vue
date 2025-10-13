@@ -70,7 +70,7 @@ const decrementMonth = () => {
         class="inline-block w-1/2"
         :items="monthsOptions"
         :button-props="{ color: 'light', label: upperFirst(getMonthName(selectedDate.month)) }"
-        :menu-props="{ class: 'w-40 max-h-52 overflow-y-scroll' }"
+        :menu-props="{ class: 'w-40 max-h-52' }"
         @item-click="selectedDate.month = $event.value"
       />
 
@@ -78,7 +78,7 @@ const decrementMonth = () => {
         class="inline-block w-1/2"
         :items="yearsOptions"
         :button-props="{ color: 'light', label: `${selectedDate.year}` }"
-        :menu-props="{ class: 'w-30 max-h-52 overflow-y-scroll' }"
+        :menu-props="{ class: 'w-30 max-h-52' }"
         @item-click="selectedDate.year = $event.value"
       />
     </div>
