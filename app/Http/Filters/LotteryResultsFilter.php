@@ -33,6 +33,6 @@ class LotteryResultsFilter
 
     private function date(string $value): void
     {
-        $this->query->where('date', '>', $value);
+        $this->query->where('date', '>=', $value);
     }
 }
