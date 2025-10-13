@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Arr;
+
 class NumberDetailsService
 {
     /**
@@ -10,26 +12,20 @@ class NumberDetailsService
      */
     public function getDetailedNumbers($results)
     {
-        $allNumbers = $results->pluck('numbers')->collapse()->values();
-
         /**
-         * @var array<string, int>
+         * @var array<string,int>
          */
-        $numbersWithOccurrences = $allNumbers
-            ->unique()
-            ->sort()
-            ->values()
-            ->mapWithKeys(fn (string $value) => [$value => 0])
-            ->toArray();
+        $numbers = Arr::mapWithKeys(range(0, 59), fn (int $index) => [$index + 1 => 0]);
+        $resultNumbers = $results->pluck('numbers')->collapse()->values();
 
-        $allNumbers->each(function (string $number) use (&$numbersWithOccurrences) {
-            $numbersWithOccurrences[$number]++;
+        $resultNumbers->each(function (string $number) use (&$numbers) {
+            $numbers[$number]++;
         });
 
-        return collect($numbersWithOccurrences)->map(fn (int $occurrences, string $number) => [
+        return collect($numbers)->map(fn (int $occurrences, string $number) => [
             'number' => $number,
             'occurrences' => $occurrences,
-            'weight' => $weight = $this->getWeight($numbersWithOccurrences, $occurrences),
+            'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight)
         ])->sortBy('number')->values();
     }
@@ -45,6 +41,10 @@ class NumberDetailsService
 
         $min = min($numbersWithOccurrences);
         $max = max($numbersWithOccurrences);
+
+        if ($max === 0 && $min === 0) {
+            return 0;
+        }
 
         $baseWeight = ($occurrences - $min) / ($max - $min);
 

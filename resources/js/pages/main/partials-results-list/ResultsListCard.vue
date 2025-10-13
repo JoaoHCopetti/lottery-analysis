@@ -3,17 +3,16 @@ import AppCard from '@/components/card/AppCard.vue'
 import { LotteryResult } from '@/types'
 import { useVirtualList } from '@vueuse/core'
 import IPhListBulletsBold from 'virtual:icons/ph/list-bullets-bold'
+import { computed } from 'vue'
 import ResultsListCardItem from './ResultsListCardItem.vue'
 
 const props = defineProps<{
   results: LotteryResult[]
 }>()
 
-const {
-  list: virtualResults,
-  wrapperProps,
-  containerProps,
-} = useVirtualList(props.results, {
+const results = computed(() => props.results)
+
+const { list, wrapperProps, containerProps } = useVirtualList(results, {
   itemHeight: 98,
 })
 </script>
@@ -32,7 +31,7 @@ const {
     <template #body>
       <ul v-bind="wrapperProps">
         <ResultsListCardItem
-          v-for="result in virtualResults"
+          v-for="result in list"
           :key="result.data.id"
           :result="result.data"
           class="mb-4"

@@ -17,11 +17,7 @@ onMounted(() => {
 })
 
 const onDateChange = () => {
-  if (!date.value) {
-    return
-  }
-
-  router.reload({ data: { date: date.value.toISOString().split('T')[0] } })
+  router.reload({ data: { date: date.value?.toISOString().split('T')[0] } })
 }
 </script>
 

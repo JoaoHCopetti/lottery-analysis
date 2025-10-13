@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useLotteryNumber } from '@/composables/use-lottery-number'
 import { LotteryNumber } from '@/types'
+import { computed } from 'vue'
 
-const { number } = defineProps<{
+const props = defineProps<{
   number: LotteryNumber
 }>()
+
+const number = computed(() => props.number)
 
 const { numberElAttrs } = useLotteryNumber(number)
 </script>

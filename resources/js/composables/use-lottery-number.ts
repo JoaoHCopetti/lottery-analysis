@@ -1,6 +1,6 @@
 import { useLotteryStore } from '@/stores/lottery-store'
 import { LotteryNumber } from '@/types'
-import { computed, HTMLAttributes } from 'vue'
+import { computed, ComputedRef, HTMLAttributes } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
 
@@ -15,16 +15,16 @@ const NUMBER_CLASSES = {
   },
 }
 
-export function useLotteryNumber(number: LotteryNumber) {
+export function useLotteryNumber(number: ComputedRef<LotteryNumber>) {
   const lotteryStore = useLotteryStore()
 
-  const heatColor = computed(() => `hsl(3, 70%, ${number.lightness}%)`)
-  const isDark = computed(() => number.lightness < LIGHTNESS_THRESHOLD)
-  const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(number.number))
-  const isNumberSelected = computed(() => lotteryStore.isSelected(number.number))
+  const heatColor = computed(() => `hsl(3, 70%, ${number.value.lightness}%)`)
+  const isDark = computed(() => number.value.lightness < LIGHTNESS_THRESHOLD)
+  const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(number.value.number))
+  const isNumberSelected = computed(() => lotteryStore.isSelected(number.value.number))
 
   const highlightNumber = () => {
-    lotteryStore.highlightedNumber = number.number
+    lotteryStore.highlightedNumber = number.value.number
   }
 
   const unhighlightNumber = () => {
@@ -32,12 +32,12 @@ export function useLotteryNumber(number: LotteryNumber) {
   }
 
   const toggleNumberSelect = () => {
-    if (lotteryStore.isSelected(number.number)) {
-      lotteryStore.deselectNumber(number.number)
+    if (lotteryStore.isSelected(number.value.number)) {
+      lotteryStore.deselectNumber(number.value.number)
       return
     }
 
-    lotteryStore.selectNumber(number.number)
+    lotteryStore.selectNumber(number.value.number)
   }
 
   const numberElAttrs = computed<HTMLAttributes>(() => ({

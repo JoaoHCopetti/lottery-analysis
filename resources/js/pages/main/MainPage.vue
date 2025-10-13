@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LotteryNumber, LotteryResult } from '@/types'
-import { provide } from 'vue'
+import { computed, provide } from 'vue'
 import { lotteryNumbersKey } from './injection-keys'
 import GeneralDataCard from './partials-general-data/GeneralDataCard.vue'
 import ResultsHeatmapCard from './partials-results-heatmap/ResultsHeatmapCard.vue'
@@ -11,7 +11,9 @@ const props = defineProps<{
   numbers: LotteryNumber[]
 }>()
 
-provide(lotteryNumbersKey, props.numbers)
+const numbers = computed(() => props.numbers)
+
+provide(lotteryNumbersKey, numbers)
 </script>
 
 <template>

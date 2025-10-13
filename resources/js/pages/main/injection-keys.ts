@@ -1,4 +1,4 @@
 import { LotteryNumber } from '@/types'
-import { InjectionKey } from 'vue'
+import { ComputedRef, InjectionKey } from 'vue'
 
-export const lotteryNumbersKey = Symbol() as InjectionKey<LotteryNumber[]>
+export const lotteryNumbersKey = Symbol() as InjectionKey<ComputedRef<LotteryNumber[]>>
