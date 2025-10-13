@@ -1,10 +1,28 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
 import AppInputDate from '@/components/input/AppInputDate.vue'
+import { router } from '@inertiajs/vue3'
+import { useUrlSearchParams } from '@vueuse/core'
 import IPhInfo from 'virtual:icons/ph/info-bold'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const date = ref<Date | undefined>()
+
+onMounted(() => {
+  const urlParams = useUrlSearchParams()
+
+  if (urlParams.date) {
+    date.value = new Date(urlParams.date + ' 00:00')
+  }
+})
+
+const onDateChange = () => {
+  if (!date.value) {
+    return
+  }
+
+  router.reload({ data: { date: date.value.toISOString().split('T')[0] } })
+}
 </script>
 
 <template>
@@ -19,6 +37,7 @@ const date = ref<Date | undefined>()
         <AppInputDate
           v-model="date"
           label="A partir de:"
+          @update:model-value="onDateChange"
         />
       </div>
     </template>
