@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { ref } from 'vue'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { computed } from 'vue'
 import AppDatePicker from '../date-picker/AppDatePicker.vue'
 import AppInput from './AppInput.vue'
 
-const selectedDate = ref<Date | undefined>()
+const selectedDate = defineModel<Date | undefined>()
 const onDateSelect = (value?: Date) => {
   selectedDate.value = value
 }
+
+const inputValue = computed(() => selectedDate.value?.toLocaleDateString(navigator.language) || '')
 </script>
 
 <template>
-  <Menu
+  <Popover
     as="div"
     class="relative"
   >
-    <MenuButton class="w-full text-left">
+    <PopoverButton class="w-full text-left">
       <AppInput
         v-bind="$attrs"
         type="date"
-        placeholder="dd/mm/aaaa"
-        :value="selectedDate"
+        :value="inputValue"
       />
-    </MenuButton>
+    </PopoverButton>
 
-    <MenuItems
+    <PopoverPanel
       as="div"
       class="absolute left-0 z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg focus:outline-none"
     >
-      <div class="p-3">
-        <AppDatePicker
-          :value="selectedDate"
-          @date-selected="onDateSelect"
-        />
-      </div>
-    </MenuItems>
-  </Menu>
+      <AppDatePicker
+        class="p-3"
+        :value="selectedDate"
+        @date-selected="onDateSelect($event)"
+      />
+    </PopoverPanel>
+  </Popover>
 </template>

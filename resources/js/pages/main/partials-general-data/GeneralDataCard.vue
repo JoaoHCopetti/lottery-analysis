@@ -4,7 +4,7 @@ import AppInputDate from '@/components/input/AppInputDate.vue'
 import IPhInfo from 'virtual:icons/ph/info-bold'
 import { ref } from 'vue'
 
-const value = ref<string>()
+const date = ref<Date | undefined>()
 </script>
 
 <template>
@@ -17,10 +17,9 @@ const value = ref<string>()
     <template #body>
       <div>
         <AppInputDate
-          v-model="value"
+          v-model="date"
           label="A partir de:"
         />
-        {{ value }}
       </div>
     </template>
   </AppCard>
