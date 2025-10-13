@@ -1,16 +1,28 @@
 <script setup lang="ts">
 import { CalendarDate } from '@/types'
 import { clone } from 'lodash-es'
-import { computed, provide, ref } from 'vue'
+import { computed, onMounted, provide, ref, watch } from 'vue'
 import CalendarTable from './CalendarTable.vue'
 import DatePickerHeader from './DatePickerHeader.vue'
 import { calendarDateKey, selectedDateKey } from './date-picker-injection-keys'
 
-const date = new Date()
-const selectedDate = ref<Date>()
+const emit = defineEmits<{
+  'date-selected': [value?: Date]
+}>()
 
+const props = defineProps<{
+  value?: Date
+}>()
+
+const date = props.value || new Date()
+
+onMounted(() => {
+  selectedDate.value = props.value
+})
+
+const selectedDate = ref<Date>()
 const calendarDate = ref<CalendarDate>({
-  day: 1,
+  day: date.getDate(),
   month: date.getMonth(),
   year: date.getFullYear(),
 })
@@ -52,6 +64,13 @@ const dates = computed(() => {
 
   return _dates
 })
+
+watch(
+  () => selectedDate.value,
+  (value) => {
+    emit('date-selected', value)
+  },
+)
 
 provide(calendarDateKey, calendarDate)
 provide(selectedDateKey, selectedDate)
