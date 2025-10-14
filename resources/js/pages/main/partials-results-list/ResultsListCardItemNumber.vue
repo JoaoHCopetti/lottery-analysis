@@ -12,7 +12,7 @@ const numbers = inject(lotteryNumbersKey) as ComputedRef<LotteryNumber[]>
 
 const number = computed(() => numbers.value.find((number) => number.number === props.number)!)
 
-const { numberElAttrs } = useLotteryNumber(number)
+const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
 </script>
 
 <template>
@@ -22,6 +22,6 @@ const { numberElAttrs } = useLotteryNumber(number)
     type="button"
     v-bind="numberElAttrs"
   >
-    {{ number.number }}
+    {{ paddedNumber }}
   </button>
 </template>

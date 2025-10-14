@@ -22,6 +22,7 @@ export function useLotteryNumber(number: ComputedRef<LotteryNumber>) {
   const isDark = computed(() => number.value.lightness < LIGHTNESS_THRESHOLD)
   const isNumberHighlighted = computed(() => lotteryStore.isHighlighted(number.value.number))
   const isNumberSelected = computed(() => lotteryStore.isSelected(number.value.number))
+  const paddedNumber = computed(() => number.value.number.padStart(2, '0'))
 
   const highlightNumber = () => {
     lotteryStore.highlightedNumber = number.value.number
@@ -66,5 +67,6 @@ export function useLotteryNumber(number: ComputedRef<LotteryNumber>) {
     isNumberHighlighted,
     isNumberSelected,
     numberElAttrs,
+    paddedNumber,
   }
 }

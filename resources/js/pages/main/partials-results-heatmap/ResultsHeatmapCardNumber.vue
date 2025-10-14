@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const number = computed(() => props.number)
 
-const { numberElAttrs } = useLotteryNumber(number)
+const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const { numberElAttrs } = useLotteryNumber(number)
     tabindex="0"
     type="button"
   >
-    <div class="text-xl font-bold">{{ number.number }}</div>
+    <div class="text-xl font-bold">{{ paddedNumber }}</div>
 
     <div class="text-sm font-bold">{{ number.occurrences }}</div>
   </button>

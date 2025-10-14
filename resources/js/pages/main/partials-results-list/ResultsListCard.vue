@@ -21,7 +21,7 @@ const { list, wrapperProps, containerProps } = useVirtualList(results, {
   <AppCard
     :header-icon="IPhListBulletsBold"
     :body-props="{
-      class: 'h-[calc(100vh-80px)] overflow-auto',
+      class: 'h-[calc(100vh-80px)] ',
       ...containerProps,
     }"
     fade-bottom
