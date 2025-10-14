@@ -2,15 +2,22 @@
 import AppCard from '@/components/card/AppCard.vue'
 import AppToggle from '@/components/toggle/AppToggle.vue'
 import { LotteryNumber } from '@/types'
-import { computed } from 'vue'
+import { useUrlSearchParams } from '@vueuse/core'
+import { computed, onBeforeMount } from 'vue'
 import IPhChartScatterBold from '~icons/ph/chart-scatter-bold'
 import ResultsHeatmapCardNumber from './ResultsHeatmapCardNumber.vue'
-
 const props = defineProps<{
   numbers: LotteryNumber[]
 }>()
 
 const sortByOccurrences = defineModel<boolean>('sort-by-occurrences')
+const urlParams = useUrlSearchParams()
+
+onBeforeMount(() => {
+  if (urlParams.sort) {
+    sortByOccurrences.value = urlParams.sort === 'true'
+  }
+})
 
 const computedNumbers = computed(() => {
   if (sortByOccurrences.value) {
@@ -19,6 +26,17 @@ const computedNumbers = computed(() => {
 
   return props.numbers
 })
+
+const onSortByOccurrencesChange = (value: boolean) => {
+  sortByOccurrences.value = value
+
+  if (value) {
+    urlParams.sort = 'true'
+    return
+  }
+
+  delete urlParams.sort
+}
 </script>
 
 <template>
@@ -34,8 +52,9 @@ const computedNumbers = computed(() => {
     <template #body>
       <div class="mt-2 mb-4">
         <AppToggle
-          v-model="sortByOccurrences"
+          :model-value="sortByOccurrences"
           label="Ordenar por ocorrências"
+          @update:model-value="onSortByOccurrencesChange"
         />
       </div>
 

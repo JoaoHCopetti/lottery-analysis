@@ -7,10 +7,9 @@ import IPhInfo from 'virtual:icons/ph/info-bold'
 import { onMounted, ref } from 'vue'
 
 const date = ref<Date | undefined>()
+const urlParams = useUrlSearchParams()
 
 onMounted(() => {
-  const urlParams = useUrlSearchParams()
-
   if (urlParams.date) {
     date.value = new Date(urlParams.date + ' 00:00')
   }
