@@ -10,6 +10,7 @@ export type LotteryNumber = {
   occurrences: number
   weight: number
   lightness: number
+  last_occurrence: string
 }
 
 export type CalendarDate = {

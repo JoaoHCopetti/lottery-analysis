@@ -7,7 +7,9 @@ const props = defineProps<{
   result: LotteryResult
 }>()
 
-const date = computed(() => new Date(props.result.date).toLocaleDateString(navigator.language))
+const date = computed(() =>
+  new Date(props.result.date + ' 00:00').toLocaleDateString(navigator.language),
+)
 </script>
 
 <template>

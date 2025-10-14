@@ -24,7 +24,3 @@ declare module 'vue' {
     $headManager: ReturnType<typeof createHeadManager>
   }
 }
-
-declare global {
-  var route: typeof route
-}

@@ -2,31 +2,34 @@
 
 namespace App\Services;
 
+use App\Models\LotteryResult;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
 class NumberDetailsService
 {
     /**
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float}>
+     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float, last_occurrence: string}>
      */
-    public function getDetailedNumbers($results)
+    public function getDetailedNumbers(Collection $results)
     {
         /**
          * @var array<string,int>
          */
-        $numbers = Arr::mapWithKeys(range(0, 59), fn (int $index) => [$index + 1 => 0]);
+        $numbers = Arr::mapWithKeys(range(0, 59), fn(int $index) => [$index + 1 => 0]);
         $resultNumbers = $results->pluck('numbers')->collapse()->values();
 
         $resultNumbers->each(function (string $number) use (&$numbers) {
             $numbers[$number]++;
         });
 
-        return collect($numbers)->map(fn (int $occurrences, string $number) => [
+        return collect($numbers)->map(fn(int $occurrences, string $number) => [
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
-            'lightness' => $this->getLightnessPercent($weight)
+            'lightness' => $this->getLightnessPercent($weight),
+            'last_occurrence' => $this->getLastOccurrence($number, $results)
         ])->sortBy('number')->values();
     }
 
@@ -67,5 +70,22 @@ class NumberDetailsService
         }
 
         return 100 - $darkness;
+    }
+
+    /**
+     * @param string $number
+     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
+     * @return string
+     */
+    private function getLastOccurrence(string $number, Collection $results): string
+    {
+        /** @phpstan-ignore argument.type */
+        $resultsWithNumber = $results->filter(fn(LotteryResult $result) => in_array($number, $result->numbers));
+
+        $latestResult = $resultsWithNumber->sortByDesc('date')->first();
+
+        assert($latestResult !== null);
+
+        return $latestResult->date;
     }
 }
