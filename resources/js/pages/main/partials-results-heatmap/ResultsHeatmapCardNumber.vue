@@ -10,17 +10,6 @@ const props = defineProps<{
 const number = computed(() => props.number)
 
 const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
-
-const lastOccurrenceFormatted = computed(() => {
-  const lastOccurrenceDate = new Date(props.number.last_occurrence + ' 00:00')
-  const currentYear = new Date().getFullYear()
-
-  return lastOccurrenceDate.toLocaleDateString(navigator.language, {
-    day: '2-digit',
-    month: '2-digit',
-    ...(lastOccurrenceDate.getFullYear() !== currentYear ? { year: '2-digit' } : {}),
-  })
-})
 </script>
 
 <template>
@@ -35,7 +24,7 @@ const lastOccurrenceFormatted = computed(() => {
     <div class="text-xs font-bold">{{ number.occurrences }}</div>
 
     <div class="text-[.7rem] font-bold opacity-60">
-      {{ lastOccurrenceFormatted }}
+      Há {{ number.last_occurrence_in_days }} dias
     </div>
   </button>
 </template>

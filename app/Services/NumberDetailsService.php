@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\LotteryResult;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
@@ -10,7 +11,7 @@ class NumberDetailsService
 {
     /**
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float, last_occurrence: string}>
+     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float, last_occurrence_date: string, last_occurrence_in_days: int}>
      */
     public function getDetailedNumbers(Collection $results)
     {
@@ -29,7 +30,8 @@ class NumberDetailsService
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight),
-            'last_occurrence' => $this->getLastOccurrence($number, $results)
+            'last_occurrence_date' => $lastOccurrence = $this->getLastOccurrenceDate($number, $results),
+            'last_occurrence_in_days' => $this->getLastOccurrenceInDays($lastOccurrence)
         ])->sortBy('number')->values();
     }
 
@@ -77,7 +79,7 @@ class NumberDetailsService
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
      * @return string
      */
-    private function getLastOccurrence(string $number, Collection $results): string
+    private function getLastOccurrenceDate(string $number, Collection $results): string
     {
         /** @phpstan-ignore argument.type */
         $resultsWithNumber = $results->filter(fn(LotteryResult $result) => in_array($number, $result->numbers));
@@ -87,5 +89,14 @@ class NumberDetailsService
         assert($latestResult !== null);
 
         return $latestResult->date;
+    }
+
+    private function getLastOccurrenceInDays(string $lastOccurrence): int
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $lastOccurrence);
+
+        assert($date !== null);
+
+        return intval(floor($date->diffInDays(now())));
     }
 }
