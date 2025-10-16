@@ -12,6 +12,7 @@ export type LotteryNumber = {
   lightness: number
   last_occurrence_date: string | null
   last_occurrence_in_days: number | null
+  is_even: boolean
 }
 
 export type CalendarDate = {

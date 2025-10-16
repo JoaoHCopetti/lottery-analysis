@@ -17,7 +17,8 @@ class NumberDetailsService
      *  weight: float,
      *  lightness: float,
      *  last_occurrence_date: string|null,
-     *  last_occurrence_in_days: int|null
+     *  last_occurrence_in_days: int|null,
+     *  is_even: boolean
      * }>
      */
     public function getDetailedNumbers(Collection $results)
@@ -38,7 +39,8 @@ class NumberDetailsService
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight),
             'last_occurrence_date' => $lastOccurrence = $this->getLastOccurrenceDate($number, $results),
-            'last_occurrence_in_days' => $this->getLastOccurrenceInDays($lastOccurrence)
+            'last_occurrence_in_days' => $this->getLastOccurrenceInDays($lastOccurrence),
+            'is_even' => intval($number) % 2 === 0
         ])->sortBy('number')->values();
     }
 

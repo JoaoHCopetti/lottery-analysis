@@ -16,12 +16,22 @@ const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
 </script>
 
 <template>
-  <button
-    class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
-    tabindex="1"
-    type="button"
-    v-bind="numberElAttrs"
-  >
-    {{ paddedNumber }}
-  </button>
+  <div>
+    <button
+      class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
+      tabindex="1"
+      type="button"
+      v-bind="numberElAttrs"
+    >
+      {{ paddedNumber }}
+    </button>
+
+    <div
+      class="mt-1 h-1 w-full rounded-xs"
+      :class="{
+        'bg-blue-400': number.is_even,
+        'bg-amber-400': !number.is_even,
+      }"
+    />
+  </div>
 </template>
