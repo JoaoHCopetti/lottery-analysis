@@ -11,7 +11,14 @@ class NumberDetailsService
 {
     /**
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return \Illuminate\Support\Collection<int, array{number: string, occurrences: int, weight: float, lightness: float, last_occurrence_date: string, last_occurrence_in_days: int}>
+     * @return \Illuminate\Support\Collection<int, array{
+     *  number: string,
+     *  occurrences: int,
+     *  weight: float,
+     *  lightness: float,
+     *  last_occurrence_date: string|null,
+     *  last_occurrence_in_days: int|null
+     * }>
      */
     public function getDetailedNumbers(Collection $results)
     {
@@ -77,9 +84,9 @@ class NumberDetailsService
     /**
      * @param string $number
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return string
+     * @return string|null
      */
-    private function getLastOccurrenceDate(string $number, Collection $results): string
+    private function getLastOccurrenceDate(string $number, Collection $results): string|null
     {
         $resultsWithNumber = $results->filter(
             fn(LotteryResult $result) => in_array($number, $result->numbers)
@@ -87,13 +94,15 @@ class NumberDetailsService
 
         $latestResult = $resultsWithNumber->sortByDesc('date')->first();
 
-        assert($latestResult !== null);
-
-        return $latestResult->date;
+        return $latestResult?->date;
     }
 
-    private function getLastOccurrenceInDays(string $lastOccurrence): int
+    private function getLastOccurrenceInDays(string|null $lastOccurrence): int|null
     {
+        if (!$lastOccurrence) {
+            return null;
+        }
+
         $date = Carbon::createFromFormat('Y-m-d', $lastOccurrence);
 
         assert($date !== null);

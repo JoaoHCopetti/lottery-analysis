@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
 import AppInputDate from '@/components/input/AppInputDate.vue'
+import AppTabs from '@/components/tabs/AppTabs.vue'
 import { router } from '@inertiajs/vue3'
 import { useUrlSearchParams } from '@vueuse/core'
 import IPhInfo from 'virtual:icons/ph/info-bold'
@@ -30,13 +31,24 @@ const onDateChange = () => {
     <template #header> Dados gerais </template>
 
     <template #body>
-      <div>
-        <AppInputDate
-          v-model="date"
-          label="A partir de:"
-          @update:model-value="onDateChange"
-        />
-      </div>
+      <AppTabs
+        :tabs="[
+          { slot: 'general', label: 'Geral' },
+          { slot: 'selected-numbers', label: 'Números selecionados' },
+        ]"
+      >
+        <template #[`general`]>
+          <div>
+            <AppInputDate
+              v-model="date"
+              label="A partir de:"
+              @update:model-value="onDateChange"
+            />
+          </div>
+        </template>
+
+        <template #[`selected-numbers`]> Números selecionados </template>
+      </AppTabs>
     </template>
   </AppCard>
 </template>
