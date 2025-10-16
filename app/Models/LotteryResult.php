@@ -12,6 +12,10 @@ class LotteryResult extends Model
         'numbers'
     ];
 
+    /**
+     * Summary of casts
+     * @return array{numbers: 'array'}
+     */
     protected function casts(): array
     {
         return [

@@ -23,7 +23,7 @@ const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
 
     <div class="text-xs font-bold">{{ number.occurrences }}</div>
 
-    <div class="text-[.7rem] font-bold opacity-60">
+    <div class="text-[.7rem] font-bold opacity-80">
       Há {{ number.last_occurrence_in_days }} dias
     </div>
   </button>

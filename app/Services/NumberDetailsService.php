@@ -81,8 +81,9 @@ class NumberDetailsService
      */
     private function getLastOccurrenceDate(string $number, Collection $results): string
     {
-        /** @phpstan-ignore argument.type */
-        $resultsWithNumber = $results->filter(fn(LotteryResult $result) => in_array($number, $result->numbers));
+        $resultsWithNumber = $results->filter(
+            fn(LotteryResult $result) => in_array($number, $result->numbers)
+        );
 
         $latestResult = $resultsWithNumber->sortByDesc('date')->first();
 
