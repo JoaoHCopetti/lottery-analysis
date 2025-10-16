@@ -25,11 +25,11 @@ onBeforeMount(() => {
 
 const computedNumbers = computed(() => {
   if (sort.value === 'occurrences') {
-    return [...props.numbers].sort((numA, numB) => numB.occurrences - numA.occurrences)
+    return sortBy(props.numbers, 'occurrences')
   }
 
   if (sort.value === 'days') {
-    return sortBy([...props.numbers], ['last_occurrence_in_days'])
+    return sortBy(props.numbers, 'last_occurrence_in_contests')
   }
 
   return props.numbers
@@ -59,16 +59,18 @@ const onSortChange = (value: boolean, type: SortValue) => {
     <template #header> Mapa de calor </template>
 
     <template #body>
-      <div class="mt-2 mb-4 flex gap-3">
+      <div class="mt-2 mb-4 flex justify-between gap-3">
         <AppToggle
           :model-value="sort === 'occurrences'"
           label="Ordenar por ocorrências"
+          label-class="text-sm"
           @update:model-value="onSortChange($event, 'occurrences')"
         />
 
         <AppToggle
           :model-value="sort === 'days'"
-          label="Ordenar por dias"
+          label="Ordenar por jogos"
+          label-class="text-sm"
           @update:model-value="onSortChange($event, 'days')"
         />
       </div>

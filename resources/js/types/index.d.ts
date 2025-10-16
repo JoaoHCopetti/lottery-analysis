@@ -10,8 +10,7 @@ export type LotteryNumber = {
   occurrences: number
   weight: number
   lightness: number
-  last_occurrence_date: string | null
-  last_occurrence_in_days: number | null
+  last_occurrence_in_contests: number | null
   is_even: boolean
 }
 

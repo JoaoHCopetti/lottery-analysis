@@ -16,8 +16,7 @@ class NumberDetailsService
      *  occurrences: int,
      *  weight: float,
      *  lightness: float,
-     *  last_occurrence_date: string|null,
-     *  last_occurrence_in_days: int|null,
+     *  last_occurrence_in_contests: int|null,
      *  is_even: boolean
      * }>
      */
@@ -38,8 +37,7 @@ class NumberDetailsService
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight),
-            'last_occurrence_date' => $lastOccurrence = $this->getLastOccurrenceDate($number, $results),
-            'last_occurrence_in_days' => $this->getLastOccurrenceInDays($lastOccurrence),
+            'last_occurrence_in_contests' => $this->getLastOccurrenceInContests($number, $results),
             'is_even' => intval($number) % 2 === 0
         ])->sortBy('number')->values();
     }
@@ -86,29 +84,20 @@ class NumberDetailsService
     /**
      * @param string $number
      * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return string|null
+     * @return int|null
      */
-    private function getLastOccurrenceDate(string $number, Collection $results): string|null
+    private function getLastOccurrenceInContests(string $number, Collection $results): int|null
     {
-        $resultsWithNumber = $results->filter(
+        $resultsSortedByDate = $results->sortByDesc('date');
+        $lastContest = $resultsSortedByDate->first();
+        $lastContestWithNumber = $resultsSortedByDate->filter(
             fn(LotteryResult $result) => in_array($number, $result->numbers)
-        );
+        )->first();
 
-        $latestResult = $resultsWithNumber->sortByDesc('date')->first();
-
-        return $latestResult?->date;
-    }
-
-    private function getLastOccurrenceInDays(string|null $lastOccurrence): int|null
-    {
-        if (!$lastOccurrence) {
+        if (!$lastContest || !$lastContestWithNumber) {
             return null;
         }
 
-        $date = Carbon::createFromFormat('Y-m-d', $lastOccurrence);
-
-        assert($date !== null);
-
-        return intval(floor($date->diffInDays(now())));
+        return (intval($lastContest->contest) - intval($lastContestWithNumber->contest)) + 1;
     }
 }

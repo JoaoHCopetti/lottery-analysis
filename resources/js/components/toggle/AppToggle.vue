@@ -4,6 +4,7 @@ import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 defineEmits(['update:modelValue'])
 defineProps<{
   label?: string
+  labelClass?: string
 }>()
 
 const enabled = defineModel<boolean>({ default: false })
@@ -29,6 +30,7 @@ const enabled = defineModel<boolean>({ default: false })
       <SwitchLabel
         v-if="label"
         class="ml-3 cursor-pointer"
+        :class="labelClass"
       >
         {{ label }}
       </SwitchLabel>
