@@ -1,6 +1,6 @@
 <template>
   <thead>
-    <tr class="*:p-1 *:font-semibold">
+    <tr class="*:p-1 *:text-center *:text-xs *:font-semibold *:text-gray-500">
       <td>Dom</td>
 
       <td>Seg</td>

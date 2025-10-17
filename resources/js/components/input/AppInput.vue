@@ -36,7 +36,7 @@ const onInput = (event: Event) => {
       </span>
 
       <div
-        class="relative rounded border border-gray-400 bg-gray-100 px-3 py-2 outline-blue-200 focus-within:outline-4 hover:bg-gray-200"
+        class="relative rounded border border-gray-400 bg-gray-100 px-3 py-2 outline-blue-200 transition-colors focus-within:outline-4 hover:bg-gray-200"
       >
         <input
           class="outline-0"
