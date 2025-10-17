@@ -29,7 +29,7 @@ const selectDate = (date: Date) => {
 <template>
   <td class="p-1 text-center">
     <span
-      class="relative flex size-9 cursor-pointer items-center justify-center rounded-full text-sm transition-colors"
+      class="relative flex size-8 cursor-pointer items-center justify-center rounded-full text-sm transition-colors"
       :class="{
         'font-semibold': isDateToday,
         'pointer-events-none text-gray-400': !isCalendarMonthDate,
