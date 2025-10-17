@@ -98,6 +98,7 @@ class NumberDetailsService
             return null;
         }
 
+        // * +1 to avoid showing 0 games
         return (intval($lastContest->contest) - intval($lastContestWithNumber->contest)) + 1;
     }
 }

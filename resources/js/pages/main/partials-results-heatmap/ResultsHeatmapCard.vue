@@ -25,11 +25,11 @@ onBeforeMount(() => {
 
 const computedNumbers = computed(() => {
   if (sort.value === 'occurrences') {
-    return sortBy(props.numbers, 'occurrences')
+    return sortBy(props.numbers, 'occurrences').reverse()
   }
 
   if (sort.value === 'days') {
-    return sortBy(props.numbers, 'last_occurrence_in_contests')
+    return sortBy(props.numbers, (number) => number.last_occurrence_in_contests || 0).reverse()
   }
 
   return props.numbers
