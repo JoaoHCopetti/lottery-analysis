@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\LotteriesEnum;
-use App\Models\Lottery;
 use App\Models\LotteryResult;
 use App\Services\NumberDetailsService;
 use Illuminate\Http\Request;
@@ -20,14 +19,19 @@ class MainController extends Controller
         $lotteryResultsQuery = LotteryResult::query()
             ->where('lottery_id', LotteriesEnum::MEGA_SENA->id());
 
-        app(LotteryResultsFilter::class)->apply($request, $lotteryResultsQuery);
+        $lotteryResultsQueryFiltered = app(LotteryResultsFilter::class)
+            ->apply($request, $lotteryResultsQuery);
 
-        $results = $lotteryResultsQuery->orderBy('date', 'desc')->get();
+        $results = $lotteryResultsQueryFiltered->orderBy('date', 'desc')->get();
         $numbers = app(NumberDetailsService::class)->getDetailedNumbers($results);
 
         return Inertia::render('main/MainPage', [
             'results' => $results,
-            'numbers' => $numbers
+            'numbers' => $numbers,
+            'metadata' => [
+                'min_date' => $lotteryResultsQuery->orderBy('date', 'asc')
+                    ->first()?->date?->format('Y-m-d') ?? '1900-01-01'
+            ]
         ]);
     }
 }

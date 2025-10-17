@@ -4,6 +4,10 @@ import { computed } from 'vue'
 import AppDatePicker from '../date-picker/AppDatePicker.vue'
 import AppInput from './AppInput.vue'
 
+defineProps<{
+  datePickerProps?: InstanceType<typeof AppDatePicker>['$props']
+}>()
+
 const selectedDate = defineModel<Date | undefined>()
 const onDateSelect = (value?: Date) => {
   selectedDate.value = value
@@ -27,11 +31,12 @@ const inputValue = computed(() => selectedDate.value?.toLocaleDateString(navigat
 
     <PopoverPanel
       as="div"
-      class="absolute left-0 z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg focus:outline-none"
+      class="absolute left-0 z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md border-gray-100 bg-white shadow-lg focus:outline-none"
     >
       <AppDatePicker
         class="p-3"
         :value="selectedDate"
+        v-bind="datePickerProps"
         @date-selected="onDateSelect($event)"
       />
     </PopoverPanel>

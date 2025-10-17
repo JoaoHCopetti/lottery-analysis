@@ -10,6 +10,10 @@ import { onMounted, ref } from 'vue'
 const date = ref<Date | undefined>()
 const urlParams = useUrlSearchParams()
 
+defineProps<{
+  minDate: string
+}>()
+
 onMounted(() => {
   if (urlParams.date) {
     date.value = new Date(urlParams.date + ' 00:00')
@@ -42,6 +46,7 @@ const onDateChange = () => {
             <AppInputDate
               v-model="date"
               label="A partir de:"
+              :date-picker-props="{ minDate }"
               @update:model-value="onDateChange"
             />
           </div>

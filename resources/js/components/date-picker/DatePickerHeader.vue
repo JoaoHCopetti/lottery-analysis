@@ -4,42 +4,53 @@ import { CalendarDate } from '@/types'
 import { kebabCase, upperFirst } from 'lodash-es'
 import IPhArrowLeftBold from 'virtual:icons/ph/arrow-left-bold'
 import IPhArrowRightBold from 'virtual:icons/ph/arrow-right-bold'
-import { computed, inject, type Ref } from 'vue'
+import { computed, inject, ref, type Ref } from 'vue'
 import AppButton from '../button/AppButton.vue'
-import AppDropdown from '../dropdown/AppDropdown.vue'
+import AppDropdown, { type AppDropdownItem } from '../dropdown/AppDropdown.vue'
 import { calendarDateKey } from './date-picker-injection-keys'
 
+const props = defineProps<{
+  minDate?: string
+}>()
+const minDate = ref<Date>(new Date(props.minDate + ' 00:00'))
 const selectedDate = inject(calendarDateKey) as Ref<CalendarDate>
 
-const monthsOptions = computed(() =>
-  Array.from({ length: 12 }).map((_, index) => {
-    const monthName = getMonthName(index)
+const monthsOptions = computed(() => {
+  const isSelectedYearMin = minDate.value.getFullYear() === selectedDate.value.year
+  const minMonth = minDate.value.getMonth()
+
+  return Array.from({ length: 12 }).map((_, monthIndex) => {
+    const monthName = getMonthName(monthIndex)
 
     return {
       key: kebabCase(monthName),
       label: upperFirst(monthName),
-      value: index,
-    }
-  }),
-)
+      value: monthIndex,
+      disabled: isSelectedYearMin && monthIndex < minMonth,
+    } satisfies AppDropdownItem
+  })
+})
 
-const yearsOptions = computed(() =>
-  Array.from({ length: 100 }).map((_, index) => {
+const yearsOptions = computed(() => {
+  const yearsLength = new Date().getFullYear() - minDate.value.getFullYear()
+
+  return Array.from({ length: yearsLength + 1 }).map((_, index) => {
     const date = new Date()
-
     const year = date.getFullYear() - index
+
     return {
       key: `${year}`,
       label: `${year}`,
       value: year,
-    }
-  }),
-)
+    } satisfies AppDropdownItem
+  })
+})
 
 const incrementMonth = () => {
   if (selectedDate.value.month === 11) {
     selectedDate.value.month = 0
     selectedDate.value.year++
+
     return
   }
 
@@ -50,6 +61,7 @@ const decrementMonth = () => {
   if (selectedDate.value.month === 0) {
     selectedDate.value.month = 11
     selectedDate.value.year--
+
     return
   }
 

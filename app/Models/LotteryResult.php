@@ -13,13 +13,13 @@ class LotteryResult extends Model
     ];
 
     /**
-     * Summary of casts
-     * @return array{numbers: 'array'}
+     * @return array{numbers: 'array', date: 'date:Y-m-d'}
      */
     protected function casts(): array
     {
         return [
-            'numbers' => 'array'
+            'numbers' => 'array',
+            'date' => 'date:Y-m-d'
         ];
     }
 }

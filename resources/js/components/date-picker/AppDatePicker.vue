@@ -7,11 +7,12 @@ import DatePickerHeader from './DatePickerHeader.vue'
 import { calendarDateKey, selectedDateKey } from './date-picker-injection-keys'
 
 const emit = defineEmits<{
-  'date-selected': [value?: Date]
+  dateSelected: [value?: Date]
 }>()
 
 const props = defineProps<{
   value?: Date
+  minDate?: string
 }>()
 
 const date = props.value || new Date()
@@ -68,7 +69,7 @@ const dates = computed(() => {
 watch(
   () => selectedDate.value,
   (value) => {
-    emit('date-selected', value)
+    emit('dateSelected', value)
   },
 )
 
@@ -78,7 +79,7 @@ provide(selectedDateKey, selectedDate)
 
 <template>
   <div class="w-fit">
-    <DatePickerHeader />
+    <DatePickerHeader :min-date="minDate" />
 
     <hr class="my-3 border-gray-200" />
 

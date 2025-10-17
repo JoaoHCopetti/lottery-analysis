@@ -27,6 +27,7 @@ class NumberDetailsService
          */
         $numbers = Arr::mapWithKeys(range(0, 59), fn(int $index) => [$index + 1 => 0]);
         $resultNumbers = $results->pluck('numbers')->collapse()->values();
+        $resultsSortedByDate = $results->sortByDesc('date');
 
         $resultNumbers->each(function (string $number) use (&$numbers) {
             $numbers[$number]++;
@@ -37,7 +38,7 @@ class NumberDetailsService
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight),
-            'last_occurrence_in_contests' => $this->getLastOccurrenceInContests($number, $results),
+            'last_occurrence_in_contests' => $this->getLastOccurrenceInContests($number, $resultsSortedByDate),
             'is_even' => intval($number) % 2 === 0
         ])->sortBy('number')->values();
     }
@@ -83,12 +84,11 @@ class NumberDetailsService
 
     /**
      * @param string $number
-     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
+     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $resultsSortedByDate
      * @return int|null
      */
-    private function getLastOccurrenceInContests(string $number, Collection $results): int|null
+    private function getLastOccurrenceInContests(string $number, Collection $resultsSortedByDate): int|null
     {
-        $resultsSortedByDate = $results->sortByDesc('date');
         $lastContest = $resultsSortedByDate->first();
         $lastContestWithNumber = $resultsSortedByDate->filter(
             fn(LotteryResult $result) => in_array($number, $result->numbers)
@@ -98,7 +98,7 @@ class NumberDetailsService
             return null;
         }
 
-        // * +1 to avoid showing 0 games
+        // +1 to avoid showing 0 games
         return (intval($lastContest->contest) - intval($lastContestWithNumber->contest)) + 1;
     }
 }

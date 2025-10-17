@@ -20,7 +20,7 @@ class LotteryResultsFilter
      */
     public function apply(Request $request, Builder $query): Builder
     {
-        $this->query = $query;
+        $this->query = $query->clone();
 
         foreach ($request->all() as $key => $value) {
             if (method_exists($this, $key)) {

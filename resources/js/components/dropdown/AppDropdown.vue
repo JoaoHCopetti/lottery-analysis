@@ -4,14 +4,17 @@ import { HTMLAttributes } from 'vue'
 import AppButton from '../button/AppButton.vue'
 import { AppButtonProps } from '../button/types'
 
+export type AppDropdownItem = {
+  key: string
+  label: string
+  value: any
+  disabled?: boolean
+}
+
 defineEmits(['item-click'])
 withDefaults(
   defineProps<{
-    items: {
-      key: string
-      label: string
-      value: any
-    }[]
+    items: AppDropdownItem[]
     buttonProps: AppButtonProps
     menuProps?: HTMLAttributes
     label?: string
@@ -48,6 +51,9 @@ withDefaults(
         :key="item.key"
         as="button"
         class="flex w-full cursor-pointer items-center p-2 text-sm font-normal transition-colors first:rounded-t-md hover:bg-gray-200 active:bg-gray-300"
+        :class="{
+          'pointer-events-none text-gray-400': item.disabled,
+        }"
         @click="$emit('item-click', item)"
       >
         <slot
