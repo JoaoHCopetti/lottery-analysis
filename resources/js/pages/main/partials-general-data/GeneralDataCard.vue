@@ -46,6 +46,7 @@ const onDateChange = () => {
             <AppInputDate
               v-model="date"
               label="A partir de:"
+              placeholder="dd/mm/aaaa"
               :date-picker-props="{ minDate }"
               @update:model-value="onDateChange"
             />
