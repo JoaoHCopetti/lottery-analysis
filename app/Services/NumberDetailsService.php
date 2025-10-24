@@ -2,23 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\LotteryResult;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use App\Models\LotteryResult;
+use App\Data\DetailedNumberData;
+use Illuminate\Support\Collection;
 
 class NumberDetailsService
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $results
-     * @return \Illuminate\Support\Collection<int, array{
-     *  number: string,
-     *  occurrences: int,
-     *  weight: float,
-     *  lightness: float,
-     *  last_occurrence_in_contests: int|null,
-     *  is_even: boolean
-     * }>
+     * @param Collection<int, \App\Models\LotteryResult> $results
+     * @return Collection<int, \App\Data\DetailedNumberData>
      */
     public function getDetailedNumbers(Collection $results)
     {
@@ -33,15 +27,26 @@ class NumberDetailsService
             $numbers[$number]++;
         });
 
-        return collect($numbers)->map(fn(int $occurrences, string $number) => [
+        return collect($numbers)->map(fn(int $occurrences, string $number) => DetailedNumberData::from([
             'number' => $number,
             'occurrences' => $occurrences,
             'weight' => $weight = $this->getWeight($numbers, $occurrences),
             'lightness' => $this->getLightnessPercent($weight),
             'last_occurrence_in_contests' => $this->getLastOccurrenceInContests($number, $resultsSortedByDate),
             'is_even' => intval($number) % 2 === 0
-        ])->sortBy('number')->values();
+        ]))->sortBy('number')->values();
     }
+
+    /**
+     * Summary of getUnluckyNumbers
+     * @param Collection<int, \App\Data\DetailedNumberData> $numbers
+     * @return Collection<int, \App\Data\DetailedNumberData>
+     */
+    public function getUnluckyNumbers(Collection $numbers)
+    {
+        return $numbers->where('last_occurrence_in_contests', '>', 20)->values();
+    }
+
 
     /**
      * @param array<string, int> $numbersWithOccurrences
@@ -84,7 +89,7 @@ class NumberDetailsService
 
     /**
      * @param string $number
-     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\LotteryResult> $resultsSortedByDate
+     * @param Collection<int, \App\Models\LotteryResult> $resultsSortedByDate
      * @return int|null
      */
     private function getLastOccurrenceInContests(string $number, Collection $resultsSortedByDate): int|null
@@ -98,7 +103,6 @@ class NumberDetailsService
             return null;
         }
 
-        // +1 to avoid showing 0 games
-        return (intval($lastContest->contest) - intval($lastContestWithNumber->contest)) + 1;
+        return intval($lastContest->contest) - intval($lastContestWithNumber->contest);
     }
 }

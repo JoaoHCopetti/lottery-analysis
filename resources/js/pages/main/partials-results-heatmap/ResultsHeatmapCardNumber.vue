@@ -24,8 +24,12 @@ const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
     <div class="text-xs font-bold">{{ number.occurrences }}</div>
 
     <div class="text-[.7rem] font-bold opacity-80">
-      <template v-if="number.last_occurrence_in_contests">
-        Há {{ number.last_occurrence_in_contests }} jogos
+      <template v-if="number.last_occurrence_in_contests !== null">
+        <template v-if="number.last_occurrence_in_contests > 0">
+          Há {{ number.last_occurrence_in_contests }} jogos
+        </template>
+
+        <template v-else>Último jogo</template>
       </template>
 
       <template v-else>&nbsp;</template>

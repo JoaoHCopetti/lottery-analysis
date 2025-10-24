@@ -9,8 +9,9 @@ import ResultsListCard from './partials-results-list/ResultsListCard.vue'
 const props = defineProps<{
   results: LotteryResult[]
   numbers: LotteryNumber[]
+  unluckyNumbers: LotteryNumber[]
   metadata: {
-    min_date: string
+    minDate: string
   }
 }>()
 
@@ -25,6 +26,9 @@ provide(lotteryNumbersKey, numbers)
 
     <ResultsListCard :results="results" />
 
-    <GeneralDataCard :min-date="metadata.min_date" />
+    <GeneralDataCard
+      :unlucky-numbers="unluckyNumbers"
+      :min-date="metadata.minDate"
+    />
   </div>
 </template>
