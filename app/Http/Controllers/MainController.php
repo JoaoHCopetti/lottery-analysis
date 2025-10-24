@@ -38,7 +38,7 @@ class MainController extends Controller
             'unluckyNumbers' => $this->numberDetailsService->getUnluckyNumbers($numbers),
             'metadata' => [
                 'minDate' => $lotteryResultsQuery->orderBy('date', 'asc')
-                    ->first()?->date?->format('Y-m-d') ?? '1900-01-01'
+                    ->first()?->date?->format('Y-m-d')
             ]
         ]);
     }

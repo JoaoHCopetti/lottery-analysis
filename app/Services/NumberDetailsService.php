@@ -44,7 +44,9 @@ class NumberDetailsService
      */
     public function getUnluckyNumbers(Collection $numbers)
     {
-        return $numbers->where('last_occurrence_in_contests', '>', 20)->values();
+        return $numbers->where('last_occurrence_in_contests', '>', 20)
+            ->sortByDesc('last_occurrence_in_contests')
+            ->values();
     }
 
 

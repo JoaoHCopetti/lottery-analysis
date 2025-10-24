@@ -14,7 +14,7 @@ const date = ref<Date | undefined>()
 const urlParams = useUrlSearchParams()
 
 defineProps<{
-  minDate: string
+  minDate?: string
   unluckyNumbers: LotteryNumber[]
 }>()
 
@@ -47,7 +47,7 @@ const onDateChange = () => {
       >
         <template #[`general`]>
           <AppContainer class="mb-3">
-            <template #title><IPhCalendarFill class="mr-1" />A partir de</template>
+            <template #title> <IPhCalendarFill class="mr-1" />A partir de </template>
 
             <template #body>
               <AppInputDate
@@ -59,18 +59,27 @@ const onDateChange = () => {
             </template>
           </AppContainer>
 
-          <AppContainer>
+          <AppContainer class="mb-3">
             <template #title> <IPhWarningDiamondFill class="mr-1" /> Números de azar </template>
 
             <template #body>
-              <div class="mb-4 text-sm text-gray-500">Não cai há mais de 20 jogos</div>
+              <div class="mb-4 flex items-center gap-1 text-sm text-gray-500">
+                <IPhInfoFill /> Não cai há mais de 20 jogos
+              </div>
 
               <div class="flex justify-evenly gap-3">
-                <ResultsListCardItemNumber
+                <div
                   v-for="number in unluckyNumbers"
                   :key="number.number"
-                  :number="number.number"
-                />
+                  class=""
+                >
+                  <ResultsListCardItemNumber :number="number.number" />
+
+                  <span class="mt-2 block text-center text-xs text-gray-500">
+                    {{ number.last_occurrence_in_contests }}
+                    jogos
+                  </span>
+                </div>
               </div>
             </template>
           </AppContainer>

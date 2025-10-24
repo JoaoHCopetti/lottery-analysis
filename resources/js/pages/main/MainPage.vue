@@ -11,7 +11,7 @@ const props = defineProps<{
   numbers: LotteryNumber[]
   unluckyNumbers: LotteryNumber[]
   metadata: {
-    minDate: string
+    minDate?: string
   }
 }>()
 

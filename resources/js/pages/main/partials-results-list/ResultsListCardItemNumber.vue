@@ -16,7 +16,7 @@ const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col items-center">
     <button
       class="flex size-10 items-center justify-center rounded-full text-lg font-bold"
       tabindex="1"
