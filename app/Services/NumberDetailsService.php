@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
+use App\Enums\LotteriesEnum;
 use Illuminate\Support\Arr;
 use App\Models\LotteryResult;
 use App\Data\DetailedNumberData;
@@ -17,7 +17,7 @@ class NumberDetailsService
     public function getDetailedNumbers(Collection $results)
     {
         /**
-         * @var array<string,int>
+         * @var array<string, int>
          */
         $numbers = Arr::mapWithKeys(range(0, 59), fn(int $index) => [$index + 1 => 0]);
         $resultNumbers = $results->pluck('numbers')->collapse()->values();
@@ -38,7 +38,6 @@ class NumberDetailsService
     }
 
     /**
-     * Summary of getUnluckyNumbers
      * @param Collection<int, \App\Data\DetailedNumberData> $numbers
      * @return Collection<int, \App\Data\DetailedNumberData>
      */

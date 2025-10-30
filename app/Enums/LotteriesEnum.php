@@ -19,4 +19,11 @@ enum LotteriesEnum: string
             static::MEGA_SENA => 'Mega Sena'
         };
     }
+
+    public function numbersPerContest(): int
+    {
+        return match ($this) {
+            static::MEGA_SENA => 6
+        };
+    }
 }

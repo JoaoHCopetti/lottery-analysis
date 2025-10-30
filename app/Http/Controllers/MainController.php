@@ -12,7 +12,7 @@ use App\Http\Filters\LotteryResultsFilter;
 class MainController extends Controller
 {
     public function __construct(
-        protected NumberDetailsService $numberDetailsService
+        private NumberDetailsService $numberDetailsService
     ) {
         //
     }
