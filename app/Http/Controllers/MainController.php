@@ -6,7 +6,6 @@ use Inertia\Inertia;
 use App\Enums\LotteriesEnum;
 use Illuminate\Http\Request;
 use App\Models\LotteryResult;
-use App\Data\DetailedNumberData;
 use App\Services\NumberDetailsService;
 use App\Http\Filters\LotteryResultsFilter;
 

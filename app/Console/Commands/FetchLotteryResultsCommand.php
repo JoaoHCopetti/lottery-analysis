@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use App\Models\Lottery;
+use App\Enums\LotteriesEnum;
 use Illuminate\Console\Command;
-use App\Interfaces\LotteryFetchActionInterface;
-use App\Actions\MegaSenaFetchAction;
+use App\Actions\MegaSena\MegaSenaFetchAction;
+use App\Interfaces\LotteryFetchAction;
 
 class FetchLotteryResultsCommand extends Command
 {
@@ -24,11 +26,10 @@ class FetchLotteryResultsCommand extends Command
     protected $description = 'Fetch data related to a lottery and insert into the database';
 
     /**
-     * Summary of lotteries
      * @var array<string,class-string>
      */
     protected static $lotteries = [
-        'mega-sena' => MegaSenaFetchAction::class
+        LotteriesEnum::MEGA_SENA->value => MegaSenaFetchAction::class
     ];
 
     /**
@@ -38,7 +39,7 @@ class FetchLotteryResultsCommand extends Command
      */
     public function handle()
     {
-        if (! Lottery::query()->count()) {
+        if (!Lottery::query()->count()) {
             $this->error('No lotteries registered');
             return;
         }
@@ -51,11 +52,11 @@ class FetchLotteryResultsCommand extends Command
         $this->info("Fetching $slug info...");
         $action = app(static::$lotteries[$slug]);
 
-        if (! $action instanceof LotteryFetchActionInterface) {
-            throw new \Exception('The action class must implement ' . LotteryFetchActionInterface::class);
+        if (!$action instanceof LotteryFetchAction) {
+            throw new Exception('The action class must extend ' . LotteryFetchAction::class);
         }
 
-        $countNewRecords = $action->execute($slug);
+        $countNewRecords = $action->execute();
 
         $this->info("Fetch finished, $countNewRecords new records added.");
     }
@@ -75,7 +76,7 @@ class FetchLotteryResultsCommand extends Command
         return $this->choice(
             'Choose a lottery to fetch',
             $lotteries->mapWithKeys(
-                fn ($lottery) => [$lottery->slug => $lottery->name]
+                fn($lottery) => [$lottery->slug => $lottery->name]
             )->toArray()
         );
     }

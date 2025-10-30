@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\MegaSena;
 
+use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Services\SpreadsheetService;
@@ -21,7 +22,7 @@ class MegaSenaParseXlsxFileAction
 
         $this->removeNonResults($data);
 
-        return $data->map(fn ($result) => [
+        return $data->map(fn($result) => [
             'contest' => $this->getResultContest($result),
             'numbers' => $this->getResultNumbers($result),
             'date' => $this->getResultDate($result)
@@ -33,16 +34,18 @@ class MegaSenaParseXlsxFileAction
      */
     private function removeNonResults(Collection $xlsxData): void
     {
-        $xlsxData->splice(0, 7);
+        $xlsxData->splice(0, 1);
     }
 
     /**
-    * @param array<string|null> $result
-    * @return string
-    */
+     * @param array<string|null> $result
+     * @return string
+     */
     private function getResultContest(array $result): string
     {
-        return $result[0] ?? '';
+        assert($result[0] !== null);
+
+        return $result[0];
     }
 
     /**
@@ -51,10 +54,10 @@ class MegaSenaParseXlsxFileAction
      */
     private function getResultNumbers(array $result): array
     {
-        $numbers = array_slice($result, -6);
+        $numbers = array_slice($result, 2, 6);
 
         if (in_array(null, $numbers)) {
-            throw new \Exception("Numbers array can't contain null values");
+            throw new Exception("Numbers array can't contain null values");
         }
 
         /**
@@ -65,19 +68,19 @@ class MegaSenaParseXlsxFileAction
 
     /**
      * @param array<string|null> $result
-     * @throws \Exception
+     * @throws Exception
      * @return string
      */
     private function getResultDate(array $result): string
     {
         if ($result[1] === null) {
-            throw new \Exception("XLSX cell can't be null");
+            throw new Exception("XLSX cell can't be null");
         }
 
         $date = Carbon::createFromFormat('d/m/Y', $result[1]);
 
         if ($date === null) {
-            throw new \Exception("Couldn't parse cell date");
+            throw new Exception("Couldn't parse cell date");
         }
 
         return $date->toDateString();

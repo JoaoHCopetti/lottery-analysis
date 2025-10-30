@@ -10,8 +10,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     IPhCalendar: typeof import('~icons/ph/calendar')['default']
     IPhCalendarFill: typeof import('~icons/ph/calendar-fill')['default']
-    IPhExclamation: typeof import('~icons/ph/exclamation')['default']
-    IPhExclamationCircle: typeof import('~icons/ph/exclamation-circle')['default']
     IPhInfoFill: typeof import('~icons/ph/info-fill')['default']
     IPhWarningDiamondFill: typeof import('~icons/ph/warning-diamond-fill')['default']
   }
