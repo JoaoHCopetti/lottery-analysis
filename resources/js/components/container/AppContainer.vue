@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { HTMLAttributes } from 'vue'
+
+defineProps<{
+  bodyProps?: HTMLAttributes
+}>()
+</script>
+
 <template>
   <div>
     <div
@@ -7,7 +15,10 @@
       <slot name="title" />
     </div>
 
-    <div class="rounded p-3 shadow">
+    <div
+      class="rounded p-3 shadow"
+      v-bind="bodyProps"
+    >
       <slot name="body" />
     </div>
   </div>

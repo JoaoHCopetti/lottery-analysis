@@ -4,9 +4,15 @@ import { DetailedNumberData } from '@/types'
 import { computed, ComputedRef, inject } from 'vue'
 import { lotteryNumbersKey } from '../injection-keys'
 
-const props = defineProps<{
-  number: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    number: string | number
+    showEvenLine?: boolean
+  }>(),
+  {
+    showEvenLine: false,
+  },
+)
 
 const numbers = inject(lotteryNumbersKey) as ComputedRef<DetailedNumberData[]>
 
@@ -27,6 +33,7 @@ const { numberElAttrs, paddedNumber } = useLotteryNumber(number)
     </button>
 
     <div
+      v-if="showEvenLine"
       class="mt-1 h-1 w-full rounded-xs"
       :class="{
         'bg-blue-400': number.is_even,

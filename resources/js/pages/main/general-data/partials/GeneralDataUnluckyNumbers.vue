@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppContainer from '@/components/container/AppContainer.vue'
+import AppHint from '@/components/hint/AppHint.vue'
 import { DetailedNumberData } from '@/types'
-import IPhInfoFill from 'virtual:icons/ph/info-fill'
 import IPhWarningDiamondFill from 'virtual:icons/ph/warning-diamond-fill'
 import ResultsListCardItemNumber from '../../results-list/ResultsListCardItemNumber.vue'
 
@@ -15,9 +15,7 @@ defineProps<{
     <template #title> <IPhWarningDiamondFill class="mr-1" /> Números de azar </template>
 
     <template #body>
-      <div class="mb-4 flex items-center gap-1 text-sm text-gray-500">
-        <IPhInfoFill /> Não cai há mais de 20 jogos
-      </div>
+      <AppHint class="mb-3">Não cai há mais de 20 jogos</AppHint>
 
       <div class="flex justify-evenly gap-3">
         <div

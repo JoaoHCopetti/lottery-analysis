@@ -9,7 +9,7 @@ class NumberFrequencyData extends Data
     public function __construct(
         public int $number,
         public int $interval,
-        public \Carbon\Carbon $date
+        public string $date,
     ) {
         //
     }

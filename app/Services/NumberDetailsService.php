@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Data\NumberFrequencyData;
-use App\Enums\LotteriesEnum;
 use Illuminate\Support\Arr;
 use App\Models\LotteryResult;
 use App\Data\DetailedNumberData;
@@ -51,23 +50,26 @@ class NumberDetailsService
 
     /**
      * @param Collection<int, \App\Models\LotteryResult> $results
-     * @return array<int<1, 60>, non-empty-list<\App\Data\NumberFrequencyData>>
+     * @return array<\App\Data\NumberFrequencyData>
      */
     public function getIntervalFrequency(Collection $results)
     {
         $intervalFrequencies = [];
 
-        for ($i = 1; $i <= 60; $i++) {
+        for ($i = 0; $i < 60; $i++) {
+            $number = $i + 1;
             $previousPosition = -1;
 
             foreach ($results as $position => $result) {
-                if (in_array($i, $result->numbers)) {
-                    $interval = $position - $previousPosition;
-                    $intervalFrequencies[$i][] = NumberFrequencyData::from([
-                        'number' => $i,
-                        'interval' => $interval - 1,
-                        'date' => $result->date,
-                    ]);
+                if (in_array($number, $result->numbers)) {
+                    if ($previousPosition !== -1) {
+                        $interval = $position - $previousPosition;
+                        $intervalFrequencies[] = NumberFrequencyData::from([
+                            'number' => $number,
+                            'interval' => $interval - 1,
+                            'date' => $result->date->format('Y-m-d'),
+                        ]);
+                    }
 
                     $previousPosition = $position;
                 }

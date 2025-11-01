@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
-import { DetailedNumberData } from '@/types'
+import { DetailedNumberData, NumberFrequencyData } from '@/types'
 import IPhInfo from 'virtual:icons/ph/info-bold'
 import GeneralDataFrequencies from './partials/GeneralDataFrequencies.vue'
 import GeneralDataInputDate from './partials/GeneralDataInputDate.vue'
 import GeneralDataUnluckyNumbers from './partials/GeneralDataUnluckyNumbers.vue'
 
 defineProps<{
-  minDate?: string
+  recentIntervalFrequencies: NumberFrequencyData[]
   unluckyNumbers: DetailedNumberData[]
+  minDate?: string
 }>()
 </script>
 
@@ -24,7 +25,7 @@ defineProps<{
 
       <GeneralDataUnluckyNumbers :unlucky-numbers="unluckyNumbers" />
 
-      <GeneralDataFrequencies />
+      <GeneralDataFrequencies :recent-interval-frequencies="recentIntervalFrequencies" />
     </template>
   </AppCard>
 </template>

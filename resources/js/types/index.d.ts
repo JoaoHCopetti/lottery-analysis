@@ -20,6 +20,7 @@ export type NumberFrequencyData = {
   number: number
   interval: number
   date: string
+  contest: string
 }
 
 export type CalendarDate = {

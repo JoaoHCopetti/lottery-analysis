@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DetailedNumberData, LotteryResultModel } from '@/types'
+import { DetailedNumberData, LotteryResultModel, NumberFrequencyData } from '@/types'
 import { computed, provide } from 'vue'
 import GeneralDataCard from './general-data/GeneralDataCard.vue'
 import { lotteryNumbersKey } from './injection-keys'
@@ -10,6 +10,7 @@ const props = defineProps<{
   results: LotteryResultModel[]
   numbers: DetailedNumberData[]
   unluckyNumbers: DetailedNumberData[]
+  recentIntervalFrequencies: NumberFrequencyData[]
   metadata: {
     minDate?: string
   }
@@ -27,6 +28,7 @@ provide(lotteryNumbersKey, numbers)
     <ResultsListCard :results="results" />
 
     <GeneralDataCard
+      :recent-interval-frequencies="recentIntervalFrequencies"
       :unlucky-numbers="unluckyNumbers"
       :min-date="metadata.minDate"
     />

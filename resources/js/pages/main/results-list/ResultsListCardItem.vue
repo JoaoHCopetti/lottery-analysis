@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { dateToLocaleString } from '@/lib/utils'
 import { LotteryResultModel } from '@/types'
 import { computed } from 'vue'
 import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
@@ -7,9 +8,7 @@ const props = defineProps<{
   result: LotteryResultModel
 }>()
 
-const date = computed(() =>
-  new Date(props.result.date + ' 00:00').toLocaleDateString(navigator.language),
-)
+const date = computed(() => dateToLocaleString(props.result.date))
 
 const numbersCount = computed(() => props.result.numbers.length)
 const isAllOdd = computed(() => props.result.odd_count === numbersCount.value)
@@ -37,6 +36,7 @@ const isAllEven = computed(() => props.result.even_count === numbersCount.value)
         v-for="number in result.numbers"
         :key="`results-list-card-number-${number}`"
         :number="number"
+        show-even-line
       />
     </div>
   </li>

@@ -22,7 +22,6 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
-        $intervalFrequenciesLimit = now()->subMonths(2);
         $resultsBuilder = LotteryResult::query()
             ->where('lottery_id', LotteriesEnum::MEGA_SENA->id());
 
@@ -42,10 +41,8 @@ class MainController extends Controller
             $resultsBuilderFiltered
                 ->clone()
                 ->orderBy('date')
-                ->where('date', '>', $intervalFrequenciesLimit)
                 ->get()
         );
-
 
         return Inertia::render('main/MainPage', [
             'results' => $results,
@@ -53,7 +50,6 @@ class MainController extends Controller
             'unluckyNumbers' => $unluckyNumbers,
             'recentIntervalFrequencies' => $recentIntervalFrequencies,
             'metadata' => [
-                'intervalFrequenciesLimit' => $intervalFrequenciesLimit,
                 'minDate' =>
                     $resultsBuilder
                         ->clone()
