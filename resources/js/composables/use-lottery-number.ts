@@ -1,5 +1,5 @@
 import { useLotteryStore } from '@/stores/lottery-store'
-import { LotteryNumber } from '@/types'
+import { DetailedNumberData } from '@/types'
 import { computed, ComputedRef, HTMLAttributes } from 'vue'
 
 const LIGHTNESS_THRESHOLD = 55
@@ -15,7 +15,7 @@ const NUMBER_CLASSES = {
   },
 }
 
-export function useLotteryNumber(number: ComputedRef<LotteryNumber>) {
+export function useLotteryNumber(number: ComputedRef<DetailedNumberData>) {
   const lotteryStore = useLotteryStore()
 
   const heatColor = computed(() => `hsl(3, 70%, ${number.value.lightness}%)`)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLotteryNumber } from '@/composables/use-lottery-number'
-import { LotteryNumber } from '@/types'
+import { DetailedNumberData } from '@/types'
 import { computed, ComputedRef, inject } from 'vue'
 import { lotteryNumbersKey } from '../injection-keys'
 
@@ -8,7 +8,7 @@ const props = defineProps<{
   number: string
 }>()
 
-const numbers = inject(lotteryNumbersKey) as ComputedRef<LotteryNumber[]>
+const numbers = inject(lotteryNumbersKey) as ComputedRef<DetailedNumberData[]>
 
 const number = computed(() => numbers.value.find((number) => number.number === props.number)!)
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
 import AppToggle from '@/components/toggle/AppToggle.vue'
-import { LotteryNumber } from '@/types'
+import { DetailedNumberData } from '@/types'
 import { useUrlSearchParams } from '@vueuse/core'
 import { sortBy } from 'lodash-es'
 import { computed, onBeforeMount, ref } from 'vue'
@@ -11,7 +11,7 @@ import ResultsHeatmapCardNumber from './ResultsHeatmapCardNumber.vue'
 type SortValue = 'occurrences' | 'days'
 
 const props = defineProps<{
-  numbers: LotteryNumber[]
+  numbers: DetailedNumberData[]
 }>()
 
 const sort = ref<SortValue | undefined>()

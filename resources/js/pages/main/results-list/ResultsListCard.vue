@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import AppCard from '@/components/card/AppCard.vue'
-import { LotteryResult } from '@/types'
+import { LotteryResultModel } from '@/types'
 import { useVirtualList } from '@vueuse/core'
 import IPhListBulletsBold from 'virtual:icons/ph/list-bullets-bold'
 import { computed } from 'vue'
 import ResultsListCardItem from './ResultsListCardItem.vue'
 
 const props = defineProps<{
-  results: LotteryResult[]
+  results: LotteryResultModel[]
 }>()
 
 const results = computed(() => props.results)

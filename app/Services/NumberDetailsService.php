@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Data\NumberFrequencyData;
 use App\Enums\LotteriesEnum;
 use Illuminate\Support\Arr;
 use App\Models\LotteryResult;
@@ -46,6 +47,34 @@ class NumberDetailsService
         return $numbers->where('last_occurrence_in_contests', '>', 20)
             ->sortByDesc('last_occurrence_in_contests')
             ->values();
+    }
+
+    /**
+     * @param Collection<int, \App\Models\LotteryResult> $results
+     * @return array<int<1, 60>, non-empty-list<\App\Data\NumberFrequencyData>>
+     */
+    public function getIntervalFrequency(Collection $results)
+    {
+        $intervalFrequencies = [];
+
+        for ($i = 1; $i <= 60; $i++) {
+            $previousPosition = -1;
+
+            foreach ($results as $position => $result) {
+                if (in_array($i, $result->numbers)) {
+                    $interval = $position - $previousPosition;
+                    $intervalFrequencies[$i][] = NumberFrequencyData::from([
+                        'number' => $i,
+                        'interval' => $interval - 1,
+                        'date' => $result->date,
+                    ]);
+
+                    $previousPosition = $position;
+                }
+            }
+        }
+
+        return $intervalFrequencies;
     }
 
     /**

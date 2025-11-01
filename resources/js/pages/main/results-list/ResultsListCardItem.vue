@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { LotteryResult } from '@/types'
+import { LotteryResultModel } from '@/types'
 import { computed } from 'vue'
 import ResultsListCardItemNumber from './ResultsListCardItemNumber.vue'
 
 const props = defineProps<{
-  result: LotteryResult
+  result: LotteryResultModel
 }>()
 
 const date = computed(() =>

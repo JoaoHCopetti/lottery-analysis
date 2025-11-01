@@ -1,4 +1,4 @@
-export type LotteryResult = {
+export type LotteryResultModel = {
   id: string
   contest: string
   date: string
@@ -7,13 +7,19 @@ export type LotteryResult = {
   odd_count: number
 }
 
-export type LotteryNumber = {
+export type DetailedNumberData = {
   number: string
   occurrences: number
   weight: number
   lightness: number
   last_occurrence_in_contests: number | null
   is_even: boolean
+}
+
+export type NumberFrequencyData = {
+  number: number
+  interval: number
+  date: string
 }
 
 export type CalendarDate = {

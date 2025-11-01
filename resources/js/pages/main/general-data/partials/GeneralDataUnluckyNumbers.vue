@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import AppContainer from '@/components/container/AppContainer.vue'
-import { LotteryNumber } from '@/types'
+import { DetailedNumberData } from '@/types'
 import IPhInfoFill from 'virtual:icons/ph/info-fill'
 import IPhWarningDiamondFill from 'virtual:icons/ph/warning-diamond-fill'
 import ResultsListCardItemNumber from '../../results-list/ResultsListCardItemNumber.vue'
 
 defineProps<{
-  unluckyNumbers: LotteryNumber[]
+  unluckyNumbers: DetailedNumberData[]
 }>()
 </script>
 

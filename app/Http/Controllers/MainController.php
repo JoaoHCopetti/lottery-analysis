@@ -22,25 +22,44 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
+        $intervalFrequenciesLimit = now()->subMonths(2);
         $resultsBuilder = LotteryResult::query()
             ->where('lottery_id', LotteriesEnum::MEGA_SENA->id());
 
         $resultsBuilderFiltered = app(LotteryResultsFilter::class)
             ->apply($request, $resultsBuilder);
 
-        $results = $resultsBuilderFiltered->clone()->orderByDesc('date')->get();
+        $results = $resultsBuilderFiltered
+            ->clone()
+            ->orderByDesc('date')
+            ->get();
 
         $numbers = $this->numberDetailsService->getDetailedNumbers($results);
+
+        $unluckyNumbers = $this->numberDetailsService->getUnluckyNumbers($numbers);
+
+        $recentIntervalFrequencies = $this->numberDetailsService->getIntervalFrequency(
+            $resultsBuilderFiltered
+                ->clone()
+                ->orderBy('date')
+                ->where('date', '>', $intervalFrequenciesLimit)
+                ->get()
+        );
+
 
         return Inertia::render('main/MainPage', [
             'results' => $results,
             'numbers' => $numbers,
-            'unluckyNumbers' => $this->numberDetailsService->getUnluckyNumbers($numbers),
+            'unluckyNumbers' => $unluckyNumbers,
+            'recentIntervalFrequencies' => $recentIntervalFrequencies,
             'metadata' => [
-                'minDate' => $resultsBuilder
-                    ->clone()
-                    ->orderBy('date', 'asc')
-                    ->first()?->date?->format('Y-m-d')
+                'intervalFrequenciesLimit' => $intervalFrequenciesLimit,
+                'minDate' =>
+                    $resultsBuilder
+                        ->clone()
+                        ->orderBy('date', 'asc')
+                        ->first()
+                        ?->date?->format('Y-m-d')
             ]
         ]);
     }
