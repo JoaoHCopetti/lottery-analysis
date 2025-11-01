@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { omit } from 'lodash-es'
+import { twMerge } from 'tailwind-merge'
 import { computed, HTMLAttributes } from 'vue'
 
 const HEADER_COLOR_CLASS_MAP = {
@@ -48,8 +50,8 @@ const headerClass = computed(() => {
     </div>
 
     <div
-      class="relative bg-white px-4 py-3"
-      v-bind="bodyProps"
+      :class="twMerge('relative bg-white p-3', bodyProps.class)"
+      v-bind="omit(bodyProps, 'class')"
     >
       <slot name="body" />
     </div>

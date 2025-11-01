@@ -3,6 +3,8 @@ export type LotteryResult = {
   contest: string
   date: string
   numbers: string[]
+  even_count: number
+  odd_count: number
 }
 
 export type LotteryNumber = {

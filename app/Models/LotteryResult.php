@@ -25,6 +25,11 @@ class LotteryResult extends Model
         ];
     }
 
+    protected $appends = [
+        'even_count',
+        'odd_count'
+    ];
+
     /**
      * @return Attribute<int, null>
      */
@@ -35,6 +40,16 @@ class LotteryResult extends Model
                 $this->numbers,
                 fn(string $num) => intval($num) % 2 === 0
             ))
+        );
+    }
+
+    /**
+     * @return Attribute<int, null>
+     */
+    protected function oddCount(): Attribute
+    {
+        return Attribute::make(
+            fn() => 6 - $this->even_count
         );
     }
 }

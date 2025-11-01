@@ -15,13 +15,15 @@ const results = computed(() => props.results)
 const { list, wrapperProps, containerProps } = useVirtualList(results, {
   itemHeight: 98,
 })
+
+// const isAllOdd
 </script>
 
 <template>
   <AppCard
     :header-icon="IPhListBulletsBold"
     :body-props="{
-      class: 'h-[calc(100vh-80px)] ',
+      class: 'h-[calc(100vh-80px)] p-0',
       ...containerProps,
     }"
     fade-bottom
@@ -29,12 +31,11 @@ const { list, wrapperProps, containerProps } = useVirtualList(results, {
     <template #header> Resultados </template>
 
     <template #body>
-      <ul v-bind="wrapperProps">
+      <ul v-bind="{ ...wrapperProps }">
         <ResultsListCardItem
           v-for="result in list"
           :key="result.data.id"
           :result="result.data"
-          class="mb-4"
         />
       </ul>
     </template>

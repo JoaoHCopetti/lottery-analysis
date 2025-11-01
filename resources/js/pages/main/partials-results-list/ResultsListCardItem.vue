@@ -10,10 +10,20 @@ const props = defineProps<{
 const date = computed(() =>
   new Date(props.result.date + ' 00:00').toLocaleDateString(navigator.language),
 )
+
+const numbersCount = computed(() => props.result.numbers.length)
+const isAllOdd = computed(() => props.result.odd_count === numbersCount.value)
+const isAllEven = computed(() => props.result.even_count === numbersCount.value)
 </script>
 
 <template>
-  <li>
+  <li
+    class="px-3 py-2"
+    :class="{
+      'bg-blue-100': isAllEven,
+      'bg-amber-100': isAllOdd,
+    }"
+  >
     <div class="text-xs font-bold text-gray-600">Concurso</div>
 
     <div>

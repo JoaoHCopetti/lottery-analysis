@@ -48,7 +48,6 @@ class NumberDetailsService
             ->values();
     }
 
-
     /**
      * @param array<string, int> $numbersWithOccurrences
      * @param int $occurrences
