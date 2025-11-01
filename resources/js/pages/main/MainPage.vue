@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { LotteryNumber, LotteryResult } from '@/types'
 import { computed, provide } from 'vue'
+import GeneralDataCard from './general-data/GeneralDataCard.vue'
 import { lotteryNumbersKey } from './injection-keys'
-import GeneralDataCard from './partials-general-data/GeneralDataCard.vue'
-import ResultsHeatmapCard from './partials-results-heatmap/ResultsHeatmapCard.vue'
-import ResultsListCard from './partials-results-list/ResultsListCard.vue'
+import ResultsHeatmapCard from './results-heatmap/ResultsHeatmapCard.vue'
+import ResultsListCard from './results-list/ResultsListCard.vue'
 
 const props = defineProps<{
   results: LotteryResult[]

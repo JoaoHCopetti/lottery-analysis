@@ -22,13 +22,13 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
-        $resultsQuery = LotteryResult::query()
+        $resultsBuilder = LotteryResult::query()
             ->where('lottery_id', LotteriesEnum::MEGA_SENA->id());
 
-        $resultsQueryFiltered = app(LotteryResultsFilter::class)
-            ->apply($request, $resultsQuery);
+        $resultsBuilderFiltered = app(LotteryResultsFilter::class)
+            ->apply($request, $resultsBuilder);
 
-        $results = $resultsQueryFiltered->clone()->orderByDesc('date')->get();
+        $results = $resultsBuilderFiltered->clone()->orderByDesc('date')->get();
 
         $numbers = $this->numberDetailsService->getDetailedNumbers($results);
 
@@ -37,7 +37,9 @@ class MainController extends Controller
             'numbers' => $numbers,
             'unluckyNumbers' => $this->numberDetailsService->getUnluckyNumbers($numbers),
             'metadata' => [
-                'minDate' => $resultsQuery->orderBy('date', 'asc')
+                'minDate' => $resultsBuilder
+                    ->clone()
+                    ->orderBy('date', 'asc')
                     ->first()?->date?->format('Y-m-d')
             ]
         ]);

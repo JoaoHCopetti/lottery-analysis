@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      v-if="$slots['title']"
       class="ml-4 inline-flex items-center rounded-t bg-blue-600 px-3 py-1 text-sm font-semibold whitespace-nowrap text-white shadow"
     >
       <slot name="title" />
