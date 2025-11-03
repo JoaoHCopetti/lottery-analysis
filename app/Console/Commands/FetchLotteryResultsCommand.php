@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Cache;
 use Exception;
 use App\Models\Lottery;
 use App\Enums\LotteriesEnum;
@@ -45,6 +46,7 @@ class FetchLotteryResultsCommand extends Command
         }
 
         $this->executeFetch($this->getSlug());
+        Cache::clear();
     }
 
     private function executeFetch(string $slug): void

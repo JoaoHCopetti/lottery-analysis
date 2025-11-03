@@ -25,7 +25,9 @@ const groupedIntervals = computed(() => groupBy(props.recentIntervalFrequencies,
       <AppHint class="mb-3">
         <div>Intervalo em que um número ficou sem cair entre ocorrências</div>
 
-        <div>Zero indica que caiu duas vezes seguidas</div>
+        <div>
+          <span class="font-bold text-amber-500">Zero</span> indica que caiu duas vezes seguidas
+        </div>
       </AppHint>
 
       <ul>

@@ -15,8 +15,6 @@ const results = computed(() => props.results)
 const { list, wrapperProps, containerProps } = useVirtualList(results, {
   itemHeight: 98,
 })
-
-// const isAllOdd
 </script>
 
 <template>
