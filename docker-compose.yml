@@ -1,5 +1,5 @@
 services:
-    lottery-analysis-app:
+    app:
         container_name: lottery-analysis-app
         build:
             context: ./docker/php
